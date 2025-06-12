@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drop 90 - Streetwear</title>
+  <title>Alure - Streetwear</title>
 
   <style>
     :root {
@@ -196,8 +196,8 @@
 <body>
 
   <header>
-    <a href="index.html" class="logo">
-      <img src="drop90-logo.png" alt="Drop 90 Logo">
+    <a href="/" class="logo">
+      <img src="/static/images/logo.jpg" alt="Logo da Alure">
     </a>
 
     <nav>
@@ -240,7 +240,6 @@
     <section class="featured-products-section">
       <h2>Lançamentos</h2>
       <div class="product-grid">
-        <!-- Exemplo de produto -->
         <div class="product-card">
           <a href="#">
             <img src="https://via.placeholder.com/400x500.png/1a1a1a/ffffff?text=Produto+1" alt="Produto 1">
@@ -249,7 +248,6 @@
           </a>
           <button>Adicionar</button>
         </div>
-        <!-- Adicione mais produtos conforme necessário -->
       </div>
     </section>
   </main>
@@ -259,14 +257,14 @@
       <div class="column">
         <h3>Sobre</h3>
         <ul>
-          <li><a href="#">A Drop 90</a></li>
+          <li><a href="#">A Alure</a></li>
           <li><a href="#">Política de Privacidade</a></li>
           <li><a href="#">Trocas e Devoluções</a></li>
         </ul>
       </div>
       <div class="column">
         <h3>Contato</h3>
-        <p>Email: contato@drop90.com</p>
+        <p>Email: contato@alure.com</p>
         <p>WhatsApp: (11) 99999-9999</p>
       </div>
       <div class="column">
@@ -284,7 +282,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 Drop 90. Todos os direitos reservados.</p>
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
     </div>
   </footer>
 
