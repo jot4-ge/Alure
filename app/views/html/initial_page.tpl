@@ -40,7 +40,7 @@
           <h3>Streetwear</h3>
         </a>
         <a href="#" class="category-item">
-          <img src="/static/img/clothes/shirt2.jpg" alt="Camisetas">
+          <img src="/static/img/clothes/shirt_2.jpg" alt="Camisetas">
           <h3>Camisetas</h3>
         </a>
         <a href="#" class="category-item">
