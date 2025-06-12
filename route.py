@@ -21,6 +21,10 @@ def serve_static(filepath):
 def helper(info=None):
     return ctl.render('helper')
 
+@app.route('/')
+def index():
+    return redirect('/initial_page')
+
 #-----------------------------------------------------------------------------
 # Rota da página inicial
 @app.route("/initial_page", method=['GET'])
