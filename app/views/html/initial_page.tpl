@@ -10,7 +10,7 @@
 
   <header>
     <a href="/initial_page" class="logo">
-        <img src="/static/images/logo.jpg" alt="Logo da Alure">
+        <img src="/static/img/logo.jpg" alt="Logo da Alure">
     </a>
 
     <nav>
