@@ -36,15 +36,15 @@
       <h2>Categorias</h2>
       <div class="category-grid">
         <a href="#" class="category-item">
-          <img src="https://via.placeholder.com/400x400.png/1a1a1a/ffffff?text=Streetwear" alt="Streetwear">
+          <img src="/static/img/clothes/streetwear_shirt.jpg" alt="Streetwear">
           <h3>Streetwear</h3>
         </a>
         <a href="#" class="category-item">
-          <img src="https://via.placeholder.com/400x400.png/1a1a1a/ffffff?text=Camisetas" alt="Camisetas">
+          <img src="/static/img/clothes/shirt2.jpg" alt="Camisetas">
           <h3>Camisetas</h3>
         </a>
         <a href="#" class="category-item">
-          <img src="https://via.placeholder.com/400x400.png/1a1a1a/ffffff?text=Acessórios" alt="Acessórios">
+          <img src="/static/img/clothes/streetwear_shirt.jpg"  alt="Acessórios">
           <h3>Acessórios</h3>
         </a>
       </div>
