@@ -9,6 +9,9 @@
 <body>
 
   <header>
+
+  <!-- Links para as outras paginas -->
+
     <a href="/initial_page" class="logo">
         <img src="/static/img/logo.jpg" alt="Logo da Alure">
     </a>
@@ -22,6 +25,8 @@
       </ul>
     </nav>
 
+    <!-- Barra de Pesquisa de Produtos-->
+
     <div class="header-actions">
       <form action="#" method="get">
         <input type="search" name="q" placeholder="Buscar">
@@ -32,6 +37,9 @@
   </header>
 
   <main>
+
+    <!-- Diferentes Produtos na pagina Principal -->
+
     <section class="category-section">
       <h2>Categorias</h2>
       <div class="category-grid">
