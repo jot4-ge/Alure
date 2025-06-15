@@ -17,10 +17,6 @@ def serve_static(filepath):
     return static_file(filepath, root='./app/static')
 
 #-----------------------------------------------------------------------------
-# Rota da página de ajuda
-@app.route('/helper')
-def helper(info=None):
-    return ctl.render('helper')
 
 @app.route('/')
 def index():

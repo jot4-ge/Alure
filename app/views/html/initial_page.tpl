@@ -9,9 +9,6 @@
 <body>
 
   <header>
-
-  <!-- Links para as outras paginas -->
-
     <a href="/initial_page" class="logo">
         <img src="/static/img/logo.jpg" alt="Logo da Alure">
     </a>
@@ -25,8 +22,6 @@
       </ul>
     </nav>
 
-    <!-- Barra de Pesquisa de Produtos-->
-
     <div class="header-actions">
       <form action="#" method="get">
         <input type="search" name="q" placeholder="Buscar">
@@ -37,9 +32,6 @@
   </header>
 
   <main>
-
-    <!-- Diferentes Produtos na pagina Principal -->
-
     <section class="category-section">
       <h2>Categorias</h2>
       <div class="category-grid">
@@ -52,7 +44,7 @@
           <h3>Camisetas</h3>
         </a>
         <a href="#" class="category-item">
-          <img src="/static/img/clothes/streetwear_shirt.jpg"  alt="Acessórios">
+          <img src="/static/img/clothes/streetwear_shirt.jpg" alt="Acessórios">
           <h3>Acessórios</h3>
         </a>
       </div>
@@ -69,9 +61,55 @@
           </a>
           <button>Adicionar</button>
         </div>
+        <div class="product-card">
+          <a href="#">
+            <img src="https://via.placeholder.com/400x500.png/1a1a1a/ffffff?text=Produto+2" alt="Produto 2">
+            <h3>Hoodie Street</h3>
+            <p class="price">R$ 299,90</p>
+          </a>
+          <button>Adicionar</button>
+        </div>
+        <div class="product-card">
+          <a href="#">
+            <img src="https://via.placeholder.com/400x500.png/1a1a1a/ffffff?text=Produto+3" alt="Produto 3">
+            <h3>Boné Urbano</h3>
+            <p class="price">R$ 149,90</p>
+          </a>
+          <button>Adicionar</button>
+        </div>
       </div>
     </section>
+
+    <!-- Conteudo sobre a Loja-->
+    <div class="extra-content">
+      <h2>Sobre a Alure</h2>
+      <p>A Alure é uma marca de streetwear que nasceu para revolucionar o conceito de moda urbana. Combinamos estilo, conforto e atitude em cada peça que criamos.</p>
+      <p>Nossa missão é oferecer roupas que expressem a personalidade única de cada pessoa, com designs exclusivos e qualidade premium.</p>
+      <p>Cada produto é pensado nos mínimos detalhes, desde a escolha dos tecidos até os acabamentos finais, garantindo durabilidade e style que você merece.</p>
+    </div>
+
+    <div class="extra-content">
+      <h2>Nossa História</h2>
+      <p>Fundada em 2023, a Alure surgiu da paixão por moda e cultura urbana. Nosso time é formado por designers e estilistas que vivem e respiram streetwear.</p>
+      <p>Inspirados pelas ruas das grandes metrópoles, criamos peças que refletem a diversidade e criatividade da cultura urbana contemporânea.</p>
+      <p>Hoje, somos reconhecidos como uma das marcas mais promissoras do cenário nacional, com presença em todo o Brasil.</p>
+    </div>
+
+    <div class="extra-content">
+      <h2>Sustentabilidade</h2>
+      <p>Acreditamos na moda consciente. Por isso, trabalhamos apenas com fornecedores que respeitam práticas sustentáveis e éticas.</p>
+      <p>Nossos tecidos são selecionados com cuidado, priorizando materiais de menor impacto ambiental sem comprometer a qualidade.</p>
+      <p>Cada compra na Alure contribui para um futuro mais sustentável na indústria da moda.</p>
+    </div>
   </main>
+
+  <!-- Botão para Subir para o topo da pagina -->
+  <button class="back-to-top" id="backToTop" title="Voltar ao topo">
+
+   ↑ <!-- Texto do Botão -->
+
+  </button>
+
 
   <footer>
     <div class="footer-columns">
@@ -106,6 +144,9 @@
       <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <!-- JavaScript -->
+  <script src="/static/js/backToTop.js"></script>
 
 </body>
 </html>
