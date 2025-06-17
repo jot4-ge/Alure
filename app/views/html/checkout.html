@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Alure Streetwear</title>
+  <link rel="stylesheet" href="/static/css/checkout.css">
+</head>
+<body>
+
+  <header>
+    <!-- Logo -->
+    <a href="/" class="logo">
+        <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
+
+    <!-- Navigation simplificada para checkout -->
+    <nav>
+      <ul>
+        <li><a href="/initial_page">Voltar à Loja</a></li>
+        <li><a href="/carrinho">Carrinho</a></li>
+      </ul>
+    </nav>
+
+    <!-- Header actions simplificadas -->
+    <div class="header-actions">
+      <a href="/conta">👤</a>
+      <span class="checkout-step">Checkout</span>
+    </div>
+  </header>
+
+  <main class="checkout-main">
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-step active">
+          <span class="step-number">1</span>
+          <span class="step-label">Dados</span>
+        </div>
+        <div class="progress-step">
+          <span class="step-number">2</span>
+          <span class="step-label">Entrega</span>
+        </div>
+        <div class="progress-step">
+          <span class="step-number">3</span>
+          <span class="step-label">Pagamento</span>
+        </div>
+        <div class="progress-step">
+          <span class="step-number">4</span>
+          <span class="step-label">Confirmação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-container">
+
+      <!-- Formulário de Checkout -->
+      <div class="checkout-form">
+
+        <!-- Dados Pessoais -->
+        <section class="form-section">
+          <h2>Dados Pessoais</h2>
+          <form id="checkoutForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome">Nome Completo *</label>
+                <input type="text" id="nome" name="nome" required>
+              </div>
+              <div class="form-group">
+                <label for="cpf">CPF *</label>
+                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone *</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- Endereço de Entrega -->
+        <section class="form-section">
+          <h2>Endereço de Entrega</h2>
+          <form>
+            <div class="form-row">
+              <div class="form-group cep-group">
+                <label for="cep">CEP *</label>
+                <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+                <button type="button" class="btn-buscar-cep" onclick="BuscarCEP()">Buscar</button>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rua">Rua *</label>
+                <input type="text" id="rua" name="rua" required>
+              </div>
+              <div class="form-group">
+                <label for="bairro">Bairro *</label>
+                <input type="text" id="bairro" name="bairro" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cidade">Cidade *</label>
+                <input type="text" id="cidade" name="cidade" required>
+              </div>
+              <div class="form-group">
+                <label for="estado">Estado *</label>
+                <input type="text" id="estado" name="estado" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="numero">Número *</label>
+                <input type="text" id="numero" name="numero" required>
+              </div>
+              <div class="form-group">
+                <label for="complemento">Complemento</label>
+                <input type="text" id="complemento" name="complemento">
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- Forma de Pagamento -->
+        <section class="form-section">
+          <h2>Pagamento</h2>
+          <div class="payment-methods">
+            <div class="payment-option selected">
+              <span class="payment-icon">🔗</span>
+              <span class="payment-text">PIX</span>
+              <input type="hidden" name="pagamento" value="pix" checked>
+            </div>
+          </div>
+          <div class="pix-instructions">
+            <p>Você receberá o QR Code para pagamento na próxima etapa.</p>
+            <div class="pix-benefits">
+              <p><strong>Vantagens do PIX:</strong></p>
+              <ul>
+                <li>Pagamento instantâneo</li>
+                <li>Segurança garantida</li>
+                <li>Sem necessidade de cartão</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Resumo do Pedido -->
+      <div class="order-summary">
+        <div class="summary-header">
+          <h2>Resumo do Pedido</h2>
+        </div>
+
+        <div class="cart-items" id="cart-items-container">
+          <!-- Itens serão carregados dinamicamente aqui -->
+          <div class="empty-cart-message" style="display: none; text-align: center; padding: 2rem;">
+            <p>Seu carrinho está vazio</p>
+            <a href="/initial_page" class="btn-continue-shopping">Continuar comprando</a>
+          </div>
+        </div>
+
+        <div class="order-totals">
+          <div class="total-line">
+            <span>Subtotal:</span>
+            <span id="subtotal">R$ 0,00</span>
+          </div>
+          <div class="total-line">
+            <span>Frete:</span>
+            <span id="frete">R$ 0,00</span>
+          </div>
+          <div class="total-line total">
+            <span>Total:</span>
+            <span id="total">R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="coupon-section">
+          <input type="text" id="cupom" placeholder="Código de desconto">
+          <button type="button" class="btn-aplicar-cupom">Aplicar</button>
+        </div>
+
+        <button class="btn-finalizar" onclick="finalizarPedido()">
+          Finalizar Pedido
+        </button>
+
+        <div class="security-badges">
+          <div class="badge">
+            <span>🔒</span>
+            <span>Compra Segura</span>
+          </div>
+          <div class="badge">
+            <span>📦</span>
+            <span>Frete Grátis acima de R$ 200</span>
+          </div>
+          <div class="badge">
+            <span>↩️</span>
+            <span>7 dias para trocar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Botão para Subir para o topo da pagina -->
+  <button class="back-to-top" id="backToTop" title="Voltar ao topo">
+    ↑
+  </button>
+
+  <footer>
+    <div class="footer-columns">
+      <div class="column">
+        <h3>Sobre</h3>
+        <ul>
+          <li><a href="#">A Alure</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>Contato</h3>
+        <p>Email: contato@alure.com</p>
+        <p>WhatsApp: (11) 99999-9999</p>
+      </div>
+      <div class="column">
+        <h3>Redes</h3>
+        <a href="#">Instagram</a><br>
+        <a href="#">TikTok</a><br>
+        <a href="#">YouTube</a>
+      </div>
+      <div class="column">
+        <h3>Segurança</h3>
+        <p>🔒 Certificado SSL</p>
+        <p>💳 Pagamento Seguro</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/checkout.js"></script>
+
+</body>
+</html>

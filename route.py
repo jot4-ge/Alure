@@ -23,10 +23,20 @@ def index():
     return redirect('/initial_page')
 
 #-----------------------------------------------------------------------------
-# Rota da página inicial
+# Rota das páginas
 @app.route("/initial_page", method=['GET'])
 def initial_page(info=None):
     return ctl.render("initial_page")
+@app.route("/checkout", method=['GET'])
+def checkout(info=None):
+    return ctl.render("checkout")
+@app.route("/carrinho", method=['GET'])
+def carrinho(info=None):
+    return ctl.render("carrinho")
+@app.route("/perfil", method=['GET'])
+def perfil(info=None):
+    return ctl.render("perfil")
+    
 
 #-----------------------------------------------------------------------------
 # Se tentar abrir uma pagina que não existe redireciona para a pagina inicial

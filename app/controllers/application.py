@@ -5,7 +5,9 @@ class Application:
     def __init__(self):
         self.pages = {
             "initial_page": self.initial_page,
-            "helper": self.helper
+            "helper": self.helper,
+            "checkout": self.checkout,
+            "carrinho": self.carrinho
         }
 
     def render(self, page):
@@ -15,6 +17,14 @@ class Application:
     @staticmethod
     def helper():
         return template("helper")
+
+    @staticmethod
+    def checkout():
+        return template("checkout")
+
+    @staticmethod
+    def carrinho():
+        return template("carrinho")
 
     @staticmethod
     def initial_page():

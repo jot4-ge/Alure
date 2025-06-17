@@ -1,10 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho - Alure Streetwear</title>
+  <link rel="stylesheet" href="/static/css/carrinho.css">
+  <script src="/static/js/carrinho-simples.js" defer></script>
 </head>
 <body>
+  <!-- Header -->
+  <header>
+    <a href="/" class="logo">
+      <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
 
+    <nav>
+      <ul>
+        <li><a href="#">Novidades</a></li>
+        <li><a href="#">Feminino</a></li>
+        <li><a href="#">Masculino</a></li>
+        <li><a href="#">Drops</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <form action="#" method="get">
+        <input type="search" name="q" placeholder="Buscar">
+      </form>
+      <a href="/perfil" aria-label="Perfil do usuário">👤</a>
+      <a href="/carrinho" class="cart-icon" aria-label="Carrinho de compras">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="cart-main">
+    <div class="container">
+      <h1 class="page-title">Seu Carrinho</h1>
+
+      <!-- Empty Cart Message -->
+      <div class="empty-cart" id="emptyCart" style="display: none;">
+        <div class="empty-cart-content">
+          <div class="empty-cart-icon">🛒</div>
+          <h2>Seu carrinho está vazio</h2>
+          <p>Adicione alguns produtos incríveis da nossa coleção</p>
+          <a href="/" class="btn-continue-shopping">Continuar Comprando</a>
+        </div>
+      </div>
+
+      <!-- Cart Content -->
+      <div class="cart-content" id="cartContent">
+        <div class="cart-items-section">
+          <div class="cart-header">
+            <h2>Itens no Carrinho</h2>
+            <button class="btn-clear-cart" id="clearCart">Limpar Carrinho</button>
+          </div>
+
+          <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+          <div class="summary-card">
+            <h3>Resumo do Pedido</h3>
+
+            <div class="summary-line">
+              <span>Subtotal:</span>
+              <span id="subtotal">R$ 0,00</span>
+            </div>
+
+            <div class="summary-line">
+              <span>Frete:</span>
+              <span id="shipping">R$ 29,90</span>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="summary-line total">
+              <span>Total:</span>
+              <span id="total">R$ 0,00</span>
+            </div>
+
+            <!-- Shipping Calculator -->
+            <div class="shipping-section">
+              <label for="zipCode">Calcular Frete:</label>
+              <div class="shipping-input-group">
+                <input type="text" id="zipCode" placeholder="00000-000" maxlength="9">
+                <button type="button" id="calculateShipping" class="btn-calculate">Calcular</button>
+              </div>
+              <div class="shipping-options" id="shippingOptions"></div>
+            </div>
+
+            <button class="btn-checkout" id="checkoutBtn">Finalizar Compra</button>
+            <a href="/" class="btn-continue-shopping">Continuar Comprando</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-columns">
+      <div class="column">
+        <h3>Sobre</h3>
+        <ul>
+          <li><a href="#">A Alure</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Trocas e Devoluções</a></li>
+        </ul>
+      </div>
+      <div class="column">
+        <h3>Contato</h3>
+        <p>Email: contato@alure.com</p>
+        <p>WhatsApp: (11) 99999-9999</p>
+      </div>
+      <div class="column">
+        <h3>Redes</h3>
+        <a href="#">Instagram</a><br>
+        <a href="#">TikTok</a><br>
+        <a href="#">YouTube</a>
+      </div>
+      <div class="column">
+        <h3>Receba Novidades</h3>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Seu e-mail" required>
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" title="Voltar ao topo" aria-label="Voltar ao topo">
+    ↑
+  </button>
+
+  <script src="carrinho.js"></script>
 </body>
 </html>
