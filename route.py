@@ -36,7 +36,9 @@ def carrinho(info=None):
 @app.route("/perfil", method=['GET'])
 def perfil(info=None):
     return ctl.render("perfil")
-    
+@app.route("/admin", method=['GET'])
+def admin(info=None):
+    return ctl.render("admin")
 
 #-----------------------------------------------------------------------------
 # Se tentar abrir uma pagina que não existe redireciona para a pagina inicial

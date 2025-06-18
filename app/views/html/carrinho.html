@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrinho - Alure Streetwear</title>
   <link rel="stylesheet" href="/static/css/carrinho.css">
-  <script src="/static/js/carrinho-simples.js" defer></script>
 </head>
 <body>
   <!-- Header -->
@@ -75,7 +74,7 @@
 
             <div class="summary-line">
               <span>Frete:</span>
-              <span id="shipping">R$ 29,90</span>
+              <span id="frete">R$ 0,00</span>
             </div>
 
             <hr class="summary-divider">
@@ -87,10 +86,23 @@
 
             <!-- Shipping Calculator -->
             <div class="shipping-section">
-              <label for="zipCode">Calcular Frete:</label>
+              <label for="cep">Calcular Frete:</label>
               <div class="shipping-input-group">
-                <input type="text" id="zipCode" placeholder="00000-000" maxlength="9">
-                <button type="button" id="calculateShipping" class="btn-calculate">Calcular</button>
+                <input 
+                  type="text" 
+                  id="cep" 
+                  name="cep" 
+                  placeholder="00000-000" 
+                  maxlength="9"
+                  pattern="\d{5}-\d{3}"
+                  inputmode="numeric"
+                  title="Digite um CEP válido no formato 00000-000"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 45"
+                >
+                <button type="button" id="calculateShipping" class="btn-calculate" 
+                  onclick="calculateFrete(document.getElementById('cep').value.replace(/\D/g,''))">
+                  Calcular
+                </button>
               </div>
               <div class="shipping-options" id="shippingOptions"></div>
             </div>
@@ -143,6 +155,6 @@
     ↑
   </button>
 
-  <script src="carrinho.js"></script>
-</body>
+  <script src="/static/js/carrinho.js"></script>
+  </body>
 </html>

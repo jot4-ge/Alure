@@ -1,11 +1,11 @@
 class Produto:
-    def __init__(self, id, nome, descricao, preco, estoque, image_url=None):
+    def __init__(self, id, nome, descricao, preco, estoque, image_name=None):
         self.__id = id
         self.__nome = nome
         self.__descricao = descricao
         self.__preco = preco
         self.__estoque = estoque
-        self.image_url = image_url
+        self.image_path = "/static/img/clothes/" + image_name
 
     # Getters
     def get_id(self):

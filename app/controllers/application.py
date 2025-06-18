@@ -7,7 +7,8 @@ class Application:
             "initial_page": self.initial_page,
             "helper": self.helper,
             "checkout": self.checkout,
-            "carrinho": self.carrinho
+            "carrinho": self.carrinho,
+            "admin": self.admin
         }
 
     def render(self, page):
@@ -25,6 +26,10 @@ class Application:
     @staticmethod
     def carrinho():
         return template("carrinho")
+
+    @staticmethod
+    def admin():
+        return template("admin")
 
     @staticmethod
     def initial_page():
