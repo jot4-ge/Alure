@@ -48,3 +48,19 @@ class Application:
     @staticmethod
     def initial_page():
         return template("initial_page")
+#---------------------------- admin routes ----------------------------
+    @staticmethod
+    def add_product():
+        return template("add_product")
+    
+    @staticmethod
+    def remove_product():
+        return template("remove_product")
+    
+    @staticmethod
+    def edit_product():
+        return template("edit_product")
+    
+    @staticmethod
+    def view_products():
+        return template("view_products")
