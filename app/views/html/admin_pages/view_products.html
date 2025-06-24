@@ -1,0 +1,225 @@
+% rebase('base.tpl', title='Visualizar Produtos')
+
+<main class="admin-container">
+    <div class="admin-header">
+        <h1>Gerenciar Produtos</h1>
+        <a href="/add-product" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Adicionar Produto
+        </a>
+    </div>
+    
+    <div class="search-filters">
+        <div class="search-container">
+            <input type="text" id="searchProduct" placeholder="Buscar produtos..." class="search-input">
+            <button id="searchBtn" class="btn btn-search">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="filter-group">
+            <label for="categoryFilter">Categoria:</label>
+            <select id="categoryFilter" class="filter-select">
+                <option value="">Todas</option>
+                <option value="eletronicos">Eletrônicos</option>
+                <option value="roupas">Roupas</option>
+                <option value="acessorios">Acessórios</option>
+                <option value="outros">Outros</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="sortBy">Ordenar por:</label>
+            <select id="sortBy" class="filter-select">
+                <option value="name_asc">Nome (A-Z)</option>
+                <option value="name_desc">Nome (Z-A)</option>
+                <option value="price_asc">Preço (menor para maior)</option>
+                <option value="price_desc">Preço (maior para menor)</option>
+                <option value="stock_asc">Estoque (menor para maior)</option>
+                <option value="stock_desc">Estoque (maior para menor)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="products-grid" id="productsGrid">
+        % if products and len(products) > 0:
+            % for product in products:
+            <div class="product-card" data-id="{{product.id}}" data-category="{{product.category}}">
+                <div class="product-image">
+                    <img src="{{product.images[0] if product.images else '/static/img/placeholder.jpg'}}" alt="{{product.name}}">
+                    <div class="product-actions">
+                        <a href="/edit-product/{{product.id}}" class="btn-action btn-edit" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <button class="btn-action btn-delete" data-id="{{product.id}}" title="Remover">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">{{product.name}}</h3>
+                    <p class="product-category">{{product.category}}</p>
+                    <div class="product-meta">
+                        <span class="product-price">R$ {{'%.2f' % product.price}}</span>
+                        <span class="product-stock {{'in-stock' if product.stock > 0 else 'out-of-stock'}}">
+                            {{product.stock}} em estoque
+                        </span>
+                    </div>
+                </div>
+            </div>
+            % end
+        % else:
+            <div class="no-products">
+                <i class="fas fa-box-open"></i>
+                <p>Nenhum produto encontrado</p>
+                <a href="/add-product" class="btn btn-primary">Adicionar Primeiro Produto</a>
+            </div>
+        % end
+    </div>
+    
+    % if total_pages > 1:
+    <div class="pagination">
+        % if current_page > 1:
+            <a href="?page={{current_page - 1}}" class="page-link">&laquo; Anterior</a>
+        % end
+        
+        % for page in range(1, total_pages + 1):
+            % if page == current_page:
+                <span class="page-link active">{{page}}</span>
+            % else:
+                <a href="?page={{page}}" class="page-link">{{page}}</a>
+            % end
+        % end
+        
+        % if current_page < total_pages:
+            <a href="?page={{current_page + 1}}" class="page-link">Próxima &raquo;</a>
+        % end
+    </div>
+    % end
+</main>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Confirmar Exclusão</h3>
+        <p>Tem certeza que deseja remover este produto? Esta ação não pode ser desfeita.</p>
+        <div class="modal-actions">
+            <button id="confirmDelete" class="btn btn-danger">Sim, Remover</button>
+            <button id="cancelDelete" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // This would be moved to a separate JS file in a production environment
+    document.addEventListener('DOMContentLoaded', function() {
+        // Delete product functionality
+        let productToDelete = null;
+        const deleteModal = document.getElementById('deleteModal');
+        const confirmDeleteBtn = document.getElementById('confirmDelete');
+        const cancelDeleteBtn = document.getElementById('cancelDelete');
+        const closeModalBtn = document.querySelector('.close-modal');
+        
+        // Open delete modal when delete button is clicked
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                productToDelete = this.getAttribute('data-id');
+                deleteModal.style.display = 'block';
+            });
+        });
+        
+        // Confirm delete
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (productToDelete) {
+                fetch(`/api/products/${productToDelete}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the product card from the UI
+                        const productCard = document.querySelector(`.product-card[data-id="${productToDelete}"]`);
+                        if (productCard) {
+                            productCard.remove();
+                            // Check if there are no more products
+                            if (document.querySelectorAll('.product-card').length === 0) {
+                                const productsGrid = document.getElementById('productsGrid');
+                                productsGrid.innerHTML = `
+                                    <div class="no-products">
+                                        <i class="fas fa-box-open"></i>
+                                        <p>Nenhum produto encontrado</p>
+                                        <a href="/add-product" class="btn btn-primary">Adicionar Primeiro Produto</a>
+                                    </div>
+                                `;
+                            }
+                        }
+                    } else {
+                        alert('Erro ao remover o produto: ' + (data.message || 'Erro desconhecido'));
+                    }
+                    deleteModal.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao remover o produto');
+                    deleteModal.style.display = 'none';
+                });
+            }
+        });
+        
+        // Close modal functions
+        function closeModal() {
+            deleteModal.style.display = 'none';
+            productToDelete = null;
+        }
+        
+        cancelDeleteBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target === deleteModal) {
+                closeModal();
+            }
+        });
+        
+        // Search and filter functionality
+        const searchInput = document.getElementById('searchProduct');
+        const searchBtn = document.getElementById('searchBtn');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortBy = document.getElementById('sortBy');
+        
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const [sortField, sortOrder] = sortBy.value.split('_');
+            
+            // In a real implementation, this would be an API call
+            // For now, we'll just log the filter values
+            console.log('Filters:', {
+                search: searchTerm,
+                category: selectedCategory,
+                sortField,
+                sortOrder
+            });
+            
+            // Here you would typically make an API call to get filtered/sorted products
+            // and then update the products grid with the response
+        }
+        
+        // Add event listeners for filter changes
+        searchBtn.addEventListener('click', applyFilters);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyFilters();
+            }
+        });
+        categoryFilter.addEventListener('change', applyFilters);
+        sortBy.addEventListener('change', applyFilters);
+    });
+</script>
+
+% include('footer.tpl')

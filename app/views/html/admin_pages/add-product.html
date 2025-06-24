@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alure - Adicionar Produto</title>
+  <!-- Link to the new CSS file for this page -->
+  <link rel="stylesheet" href="/static/css/admin_pages/add_product.css">
+</head>
+<body>
+  <header>
+    <a href="/initial_page" class="logo">
+        <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
+    <nav>
+      <!-- Navigation links can be added here if needed for this specific page -->
+    </nav>
+    <div class="header-actions">
+      <a href="/conta">👤</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="add-product-section">
+      <h2>Adicionar Novo Produto</h2>
+      <form id="addProductForm" class="product-form">
+        <div class="form-group">
+          <label for="productName">Nome do Produto:</label>
+          <input type="text" id="productName" name="productName" required>
+        </div>
+        <div class="form-group">
+          <label for="productCategory">Categoria:</label>
+          <select id="productCategory" name="productCategory" required>
+            <option value="">Selecione uma categoria</option>
+            <option value="streetwear">Streetwear</option>
+            <option value="camisetas">Camisetas</option>
+            <option value="acessorios">Acessórios</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="productPrice">Preço (R$):</label>
+          <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="productImage">URL da Imagem:</label>
+          <input type="url" id="productImage" name="productImage" required>
+        </div>
+        <div class="form-group">
+          <label for="productDescription">Descrição:</label>
+          <textarea id="productDescription" name="productDescription" rows="5"></textarea>
+        </div>
+        <button type="submit">Adicionar Produto</button>
+      </form>
+      <!-- Message area for feedback -->
+      <div id="messageArea" class="message-area"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Link to the new JavaScript file for this page -->
+  <script src="/static/js/admin_pages/add_product.js"></script>
+</body>
+</html>

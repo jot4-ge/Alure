@@ -1,0 +1,202 @@
+/* Import common variables and base styles from admin.css */
+:root {
+  --roxo: #6A1B9A;
+  --preto: #151515;
+  --cinza: #f5f5f5;
+  --cinza-claro: #cccccc;
+  --branco: #ffffff;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--preto);
+  color: var(--branco);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: var(--preto);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--roxo);
+}
+
+.logo img {
+  height: 80px;
+  width: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--roxo);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-actions a {
+  font-size: 1.5rem;
+  color: var(--branco);
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--roxo);
+  margin-bottom: 2rem;
+}
+
+/* Styles specific to the add product form */
+.add-product-section {
+  background-color: #1a1a1a;
+  margin: 3rem auto;
+  padding: 2rem;
+  max-width: 800px;
+  border-radius: 10px;
+  border: 1px solid var(--roxo);
+  width: 100%; /* Ensure it takes available width within max-width */
+}
+
+.product-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.product-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--cinza-claro);
+}
+
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form input[type="url"],
+.product-form select,
+.product-form textarea {
+  width: calc(100% - 22px); /* Account for padding and border */
+  padding: 10px;
+  border: 1px solid var(--roxo);
+  border-radius: 5px;
+  background-color: #333;
+  color: var(--branco);
+  font-size: 1rem;
+}
+
+.product-form textarea {
+  resize: vertical;
+}
+
+.product-form button[type="submit"] {
+  background-color: var(--roxo);
+  color: var(--branco);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.product-form button[type="submit"]:hover {
+  background-color: #8e24aa;
+}
+
+.message-area {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.message-area.success {
+  background-color: #28a745; /* Green for success */
+  color: var(--branco);
+}
+
+.message-area.error {
+  background-color: #dc3545; /* Red for error */
+  color: var(--branco);
+}
+
+footer {
+  background-color: #111;
+  color: var(--cinza-claro);
+  padding: 1.5rem 2rem;
+  margin-top: auto;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    justify-content: center;
+  }
+
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .add-product-section {
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+
+  .product-form input[type="text"],
+  .product-form input[type="number"],
+  .product-form input[type="url"],
+  .product-form select,
+  .product-form textarea {
+    width: calc(100% - 20px); /* Adjust for smaller screens if needed */
+  }
+}
