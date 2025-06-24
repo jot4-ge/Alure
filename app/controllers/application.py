@@ -8,7 +8,8 @@ class Application:
             "helper": self.helper,
             "checkout": self.checkout,
             "carrinho": self.carrinho,
-            "admin": self.admin
+            "admin": self.admin,
+            "perfil": self.perfil
         }
 
     def render(self, page):
@@ -30,6 +31,10 @@ class Application:
     @staticmethod
     def admin():
         return template("admin")
+
+    @staticmethod
+    def perfil():
+        return template("perfil")
 
     @staticmethod
     def initial_page():

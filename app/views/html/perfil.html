@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alure - Meu Perfil</title>
+  <link rel="stylesheet" href="/static/css/initial_page.css"> <link rel="stylesheet" href="/static/css/perfil.css"> </head>
+<body>
+  <header>
+    <a href="/initial_page" class="logo">
+        <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#">Novidades</a></li>
+        <li><a href="#">Feminino</a></li>
+        <li><a href="#">Masculino</a></li>
+        <li><a href="#">Drops</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <form action="/initial_page" method="get">
+        <input type="search" name="q" placeholder="Buscar">
+      </form>
+      <a href="/conta">👤</a> <a href="/carrinho">🛒</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="profile-section">
+      <h2>Meu Perfil</h2>
+
+      <div class="profile-info-card">
+        <h3>Informações Pessoais</h3>
+        <p><strong>Nome:</strong> <span id="userNameDisplay">João Silva</span></p>
+        <p><strong>Email:</strong> <span id="userEmailDisplay">joao.silva@email.com</span></p>
+        <p><strong>Telefone:</strong> <span id="userPhoneDisplay">(11) 98765-4321</span></p>
+        <p><strong>Endereço:</strong> <span id="userAddressDisplay">Rua das Flores, 123 - Centro, São Paulo - SP, 01000-000</span></p>
+        <button id="editProfileBtn" class="primary-btn">Editar Perfil</button>
+      </div>
+
+      <div class="profile-form-card hidden" id="profileEditFormCard">
+        <h3>Editar Perfil</h3>
+        <form id="profileEditForm" class="edit-form">
+          <div class="form-group">
+            <label for="editUserName">Nome Completo:</label>
+            <input type="text" id="editUserName" required>
+          </div>
+          <div class="form-group">
+            <label for="editUserEmail">Email:</label>
+            <input type="email" id="editUserEmail" required>
+          </div>
+          <div class="form-group">
+            <label for="editUserPhone">Telefone:</label>
+            <input type="tel" id="editUserPhone">
+          </div>
+          <div class="form-group">
+            <label for="editUserAddress">Endereço:</label>
+            <textarea id="editUserAddress" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">Salvar Alterações</button>
+            <button type="button" id="cancelEditBtn" class="secondary-btn">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="profile-orders-card">
+        <h3>Meus Pedidos</h3>
+        <div id="userOrdersList" class="orders-list">
+          <p class="no-orders">Nenhum pedido encontrado.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/perfil.js"></script>
+</body>
+</html>

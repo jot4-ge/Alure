@@ -12,53 +12,19 @@
         <img src="/static/img/logo.jpg" alt="Logo da Alure">
     </a>
     <nav>
-      <ul>
-        <li><a href="#">Gerenciar Produtos</a></li>
-        <li><a href="#">Gerenciar Pedidos</a></li>
-        <li><a href="#">Configurações</a></li>
-      </ul>
+      </nav>
     <div class="header-actions">
       <a href="/conta">👤</a>
     </div>
   </header>
 
   <main>
-    <section class="admin-section">
-      <h2>Adicionar Novo Produto</h2>
-      <form id="addProductForm" class="product-form">
-        <div class="form-group">
-          <label for="productName">Nome do Produto:</label>
-          <input type="text" id="productName" required>
-        </div>
-        <div class="form-group">
-          <label for="productCategory">Categoria:</label>
-          <select id="productCategory" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="streetwear">Streetwear</option>
-            <option value="camisetas">Camisetas</option>
-            <option value="acessorios">Acessórios</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="productPrice">Preço (R$):</label>
-          <input type="number" id="productPrice" step="0.01" required>
-        </div>
-        <div class="form-group">
-          <label for="productImage">URL da Imagem:</label>
-          <input type="url" id="productImage" required>
-        </div>
-        <div class="form-group">
-          <label for="productDescription">Descrição:</label>
-          <textarea id="productDescription" rows="5"></textarea>
-        </div>
-        <button type="submit">Adicionar Produto</button>
-      </form>
-    </section>
-
-    <section class="admin-section">
-      <h2>Produtos Existentes</h2>
-      <div id="productList" class="product-list-grid">
-        </div>
+    <section class="admin-buttons-container">
+      <h2>Gerenciamento de Produtos</h2>
+      <a href="/add-product" class="admin-button">Adicionar Produto</a>
+      <a href="/remove-product" class="admin-button">Remover Produto</a>
+      <a href="/edit-product" class="admin-button">Editar Produto</a>
+      <a href="/view-products" class="admin-button">Visualizar Produtos</a>
     </section>
   </main>
 
@@ -67,7 +33,5 @@
       <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
     </div>
   </footer>
-
-  <script src="/static/js/admin.js"></script>
 </body>
 </html>

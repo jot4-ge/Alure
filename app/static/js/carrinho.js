@@ -108,6 +108,24 @@ const mascaras = {
 };
 
 // Inicializar máscara de CEP quando o DOM estiver carregado
+function finalizarCompra() {
+    // Verifica se há itens no carrinho
+    //const cartItems = document.querySelectorAll('.cart-item');
+    //if (cartItems.length === 0) {
+        //alert('Seu carrinho está vazio. Adicione itens antes de finalizar a compra.');
+        //return;
+    //}
+
+    // Redireciona para a página de checkout
+    window.location.href = '/checkout';
+}
+
+// Adiciona o event listener para o botão de finalizar compra
 document.addEventListener('DOMContentLoaded', function() {
     aplicarMascara('cep', mascaras.cep);
+    
+    const finalizarBtn = document.getElementById('finalizar-compra-btn');
+    if (finalizarBtn) {
+        finalizarBtn.addEventListener('click', finalizarCompra);
+    }
 });
