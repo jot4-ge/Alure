@@ -36,6 +36,18 @@ def perfil():
 def admin():
     return ctl.render("admin")
 
+@app.route("/streetwear", method=['GET'])
+def streetwear():
+    return ctl.render("streetwear")
+
+@app.route("/acessorios", method=['GET'])
+def acessorios():
+    return ctl.render("acessorios")
+
+@app.route("/camisetas", method=['GET'])
+def camisetas():
+    return ctl.render("camisetas")
+
 @app.error(404)
 def error404(error_):
     print(f"Erro = {error_}")

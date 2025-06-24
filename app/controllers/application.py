@@ -8,7 +8,10 @@ class Application:
             "checkout": self.checkout,
             "carrinho": self.carrinho,
             "admin": self.admin,
-            "perfil": self.perfil
+            "perfil": self.perfil,
+            "camisetas": self.camisetas,
+            "acessorios": self.acessorios,
+            "streetwear": self.streetwear
         }
         self.admin_pages = {
             "add_product": self.add_product,
@@ -46,7 +49,21 @@ class Application:
     @staticmethod
     def initial_page():
         return template("initial_page")
-#---------------------------- admin routes ----------------------------
+
+# ---------------------------- catalogos routes ----------------------------
+    @staticmethod
+    def acessorios():
+        return template("acessorios")
+
+    @staticmethod
+    def camisetas():
+        return template("camisetas")
+
+    @staticmethod
+    def streetwear():
+        return template("streetwear")
+
+    #---------------------------- admin routes ----------------------------
     @staticmethod
     def add_product():
         return template("add_product")
