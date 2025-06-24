@@ -5,7 +5,6 @@ class Application:
     def __init__(self):
         self.pages = {
             "initial_page": self.initial_page,
-            "helper": self.helper,
             "checkout": self.checkout,
             "carrinho": self.carrinho,
             "admin": self.admin,
@@ -20,14 +19,13 @@ class Application:
 
     def render(self, page, isAdmin=False):
         if isAdmin:
-            content = self.admin_pages.get(page, self.admin_pages)
+            content = self.admin_pages.get(page)
+            if content is None:
+                return template("admin_error", message=f"Página admin '{page}' não encontrada.")
             return content()
-        content = self.pages.get(page, self.helper)
+        content = self.pages.get(page)
         return content()
 
-    @staticmethod
-    def helper():
-        return template("helper")
 
     @staticmethod
     def checkout():
