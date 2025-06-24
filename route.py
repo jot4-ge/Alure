@@ -46,22 +46,22 @@ def admin(info=None):
 @app.route("admin/add-product", method=['GET'])
 def add_product():
     # In a real implementation, you would pass any necessary data to the template
-    return ctl.render("admin_pages/add_product")
+    return ctl.render("admin_pages/add_product", isAdmin = True)
 
 @app.route("admin/remove-product", method=['GET'])
 def remove_product():
     # In a real implementation, you would fetch the list of products from the database
-    return ctl.render("admin_pages/remove_product")
+    return ctl.render("admin_pages/remove_product", isAdmin = True)
 
 @app.route("admin/edit-product", method=['GET'])
 def edit_product(product_id):
     # In a real implementation, you would fetch the product details using product_id
-    return ctl.render("admin_pages/edit_product", product=product, product_id=product_id)
+    return ctl.render("admin_pages/edit_product", isAdmin = True)
 
 @app.route("admin/view-products", method=['GET'])
 def view_products():
     # In a real implementation, you would fetch the paginated list of products
-    return ctl.render("admin_pages/view_products", )
+    return ctl.render("admin_pages/view_products", isAdmin = True)
 
 #-----------------------------------------------------------------------------
 # Se tentar abrir uma pagina que não existe redireciona para a pagina inicial

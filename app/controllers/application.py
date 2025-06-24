@@ -11,8 +11,17 @@ class Application:
             "admin": self.admin,
             "perfil": self.perfil
         }
+        self.admin_pages = {
+            "add_product": self.add_product,
+            "remove_product": self.remove_product,
+            "edit_product": self.edit_product,
+            "view_products": self.view_products
+        }
 
-    def render(self, page):
+    def render(self, page, isAdmin=False):
+        if isAdmin:
+            content = self.admin_pages.get(page, self.admin_pages)
+            return content()
         content = self.pages.get(page, self.helper)
         return content()
 
