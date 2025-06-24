@@ -1,77 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alure - Editar Produto</title>
-  <link rel="stylesheet" href="/static/css/admin_pages/edit_product.css">
+    <meta charset="UTF-8">
+    <title>Editar Produtos</title>
 </head>
 <body>
-  <header>
-    <a href="/initial_page" class="logo">
-        <img src="/static/img/logo.jpg" alt="Logo da Alure">
-    </a>
-    <nav>
 
-    </nav>
-    <div class="header-actions">
-      <a href="/conta">👤</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="edit-product-section">
-      <h2>Editar Produto</h2>
-
-      <div class="load-product-container">
-        <div class="form-group">
-          <label for="productId">ID do Produto:</label>
-          <input type="text" id="productId" placeholder="Digite o ID do produto para editar" required>
-        </div>
-        <button id="loadProductBtn">Carregar Produto</button>
-      </div>
-
-      <form id="editProductForm" class="product-form" style="display: none;">
-        <h3>Detalhes do Produto</h3>
-        <div class="form-group">
-          <label for="editProductName">Nome do Produto:</label>
-          <input type="text" id="editProductName" name="productName" required>
-        </div>
-        <div class="form-group">
-          <label for="editProductCategory">Categoria:</label>
-          <select id="editProductCategory" name="productCategory" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="streetwear">Streetwear</option>
-            <option value="camisetas">Camisetas</option>
-            <option value="acessorios">Acessórios</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="editProductPrice">Preço (R$):</label>
-          <input type="number" id="editProductPrice" name="productPrice" step="0.01" required>
-        </div>
-        <div class="form-group">
-          <label for="editProductImage">URL da Imagem:</label>
-          <input type="url" id="editProductImage" name="productImage" required>
-        </div>
-        <div class="form-group">
-          <label for="editProductDescription">Descrição:</label>
-          <textarea id="editProductDescription" name="productDescription" rows="5"></textarea>
-        </div>
-        <button type="submit">Salvar Alterações</button>
-      </form>
-      <!-- Message area for feedback -->
-      <div id="messageArea" class="message-area"></div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
-    </div>
-  </footer>
-
-  <!-- Link to the new JavaScript file for this page -->
-  <script type="module" src="/static/js/admin_pages/edit_product.js"></script>
 </body>
 </html>

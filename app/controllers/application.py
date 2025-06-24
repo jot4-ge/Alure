@@ -24,7 +24,7 @@ class Application:
         if isAdmin:
             content = self.admin_pages.get(page)
             if content is None:
-                return template("admin_error", message=f"Página admin '{page}' não encontrada.")
+                return template("admin_pages/admin_error", message=f"Página admin '{page}' não encontrada.")
             return content()
         content = self.pages.get(page)
         return content()
@@ -53,29 +53,29 @@ class Application:
 # ---------------------------- catalogos routes ----------------------------
     @staticmethod
     def acessorios():
-        return template("acessorios")
+        return template("product_catalogs/acessorios")
 
     @staticmethod
     def camisetas():
-        return template("camisetas")
+        return template("product_catalogs/camisetas")
 
     @staticmethod
     def streetwear():
-        return template("streetwear")
+        return template("product_catalogs/streetwear")
 
     #---------------------------- admin routes ----------------------------
     @staticmethod
     def add_product():
-        return template("add_product")
+            return template("admin_pages/add_product")
     
     @staticmethod
     def remove_product():
-        return template("remove_product")
+        return template("admin_pages/remove_product")
     
     @staticmethod
     def edit_product():
-        return template("edit_product")
+        return template("admin_pages/edit_product")
     
     @staticmethod
     def view_products():
-        return template("view_products")
+        return template("admin_pages/view_products")

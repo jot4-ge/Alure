@@ -1,8 +1,6 @@
 from bottle import Bottle, redirect, static_file, HTTPResponse, TEMPLATE_PATH
 from app.controllers.application import Application
 import os
-import admin_routes
-
 TEMPLATE_PATH.append(os.path.join(os.path.dirname(__file__), 'app/views/html'))
 
 app = Bottle()
@@ -47,6 +45,25 @@ def acessorios():
 @app.route("/camisetas", method=['GET'])
 def camisetas():
     return ctl.render("camisetas")
+
+
+# ---------------- admin routes -----------------------
+
+@app.route("/admin/add-product", method=["GET"])
+def add_product():
+    return ctl.render("add_product", isAdmin=True)
+
+@app.route("/admin/remove-product", method=["GET"])
+def remove_product():
+    return ctl.render("remove_product", isAdmin=True)
+
+@app.route("/admin/edit-product", method=["GET"])
+def edit_product():
+    return ctl.render("edit_product", isAdmin=True)
+
+@app.route("/admin/view-products", method=["GET"])
+def view_products():
+    return ctl.render("view_products", isAdmin=True)
 
 @app.error(404)
 def error404(error_):
