@@ -50,6 +50,9 @@ def acessorios():
 def camisetas():
     return ctl.render("camisetas")
 
+@app.route('/favicon.ico', method='GET')
+def favicon():
+    return static_file('favicon.ico', root='./app/static/img/')
 
 # ---------------- Admin Web Page Routes -----------------------
 
