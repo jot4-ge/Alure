@@ -1,6 +1,7 @@
 from bottle import template
 
-class Application:
+
+class Application():
 
     def __init__(self):
         self.pages = {
@@ -29,7 +30,6 @@ class Application:
         content = self.pages.get(page)
         return content()
 
-
     @staticmethod
     def checkout():
         return template("checkout")
@@ -50,7 +50,7 @@ class Application:
     def initial_page():
         return template("initial_page")
 
-# ---------------------------- catalogos routes ----------------------------
+    # ---------------------------- catalogos routes ----------------------------
     @staticmethod
     def acessorios():
         return template("product_catalogs/acessorios")
@@ -66,16 +66,16 @@ class Application:
     #---------------------------- admin routes ----------------------------
     @staticmethod
     def add_product():
-            return template("admin_pages/add_product")
-    
+        return template("admin_pages/add_product")
+
     @staticmethod
     def remove_product():
         return template("admin_pages/remove_product")
-    
+
     @staticmethod
     def edit_product():
         return template("admin_pages/edit_product")
-    
+
     @staticmethod
     def view_products():
         return template("admin_pages/view_products")
