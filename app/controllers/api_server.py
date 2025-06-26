@@ -1,7 +1,7 @@
 import json
 from bottle import request, response
 from app.controllers.ProductRecord import ProductRecord
-from models.roupa import Roupa
+from app.models.roupa import Roupa
 
 
 class API:

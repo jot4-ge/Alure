@@ -1,3 +1,5 @@
+from .produto import Produto
+
 class Roupa(Produto):
     def __init__(self, id, nome, descricao, preco, estoque, image_url=None, tamanho=None):
         super().__init__(id, nome, descricao, preco, estoque, image_url)

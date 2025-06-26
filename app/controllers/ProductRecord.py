@@ -1,5 +1,5 @@
 import json
-from models.roupa import Roupa
+from app.models.roupa import Roupa
 from typing import Optional
 
 

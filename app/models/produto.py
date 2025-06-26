@@ -1,58 +1,60 @@
 class Produto:
     def __init__(self, id, nome, descricao, preco, estoque, image_name=None):
-        self.__id = id
-        self.__nome = nome
-        self.__descricao = descricao
-        self.__preco = preco
-        self.__estoque = estoque
-        self.image_path = "/static/img/clothes/" + image_name
+        self._id = id
+        self.nome = nome
+        self.descricao = descricao
+        self.preco = preco
+        self.estoque = estoque
+        self.image_path = f"/static/img/clothes/{image_name}" if image_name else None
 
-    # Getters
-    def get_id(self):
-        return self.__id
+    # Properties para acesso limpo e controlado
+    @property
+    def id(self):
+        return self._id
 
-    def get_nome(self):
-        return self.__nome
+    @property
+    def preco(self):
+        return self._preco
 
-    def get_descricao(self):
-        return self.__descricao
-
-    def get_preco(self):
-        return self.__preco
-
-    def get_estoque(self):
-        return self.__estoque
-
-    # Setters
-    def set_nome(self, nome):
-        self.__nome = nome
-
-    def set_descricao(self, descricao):
-        self.__descricao = descricao
-
-    def set_preco(self, preco):
-        if preco >= 0:
-            self.__preco = preco
+    @preco.setter
+    def preco(self, value):
+        if value >= 0:
+            self._preco = value
         else:
-            print("Preço inválido!")
+            raise ValueError("O preço não pode ser negativo.")
 
-    def set_estoque(self, estoque):
-        if estoque >= 0:
-            self.__estoque = estoque
+    @property
+    def estoque(self):
+        return self._estoque
+
+    @estoque.setter
+    def estoque(self, value):
+        if value >= 0:
+            self._estoque = value
         else:
-            print("Estoque inválido!")
+            raise ValueError("O estoque não pode ser negativo.")
 
     def reduzir_estoque(self, quantidade):
-        if quantidade <= self.__estoque:
-            self.__estoque -= quantidade
+        if 0 < quantidade <= self._estoque:
+            self._estoque -= quantidade
         else:
-            print("Estoque insuficiente.")
+            raise ValueError("Quantidade inválida ou estoque insuficiente.")
+
     def to_dict(self):
-        return self.__dict__
+        """Cria um dicionário a partir do objeto, ideal para serialização JSON."""
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "descricao": self.descricao,
+            "preco": self.preco,
+            "estoque": self.estoque,
+            "image_path": self.image_path
+        }
+
     @staticmethod
     def from_dict(data: dict):
+        """Cria uma instância de Produto a partir de um dicionário."""
         return Produto(**data)
 
-
     def __str__(self):
-        return f"{self.__nome} - R${self.__preco:.2f} ({self.__estoque} unidades disponíveis)"
+        return f"{self.nome} - R${self.preco:.2f} ({self.estoque} unidades disponíveis)"
