@@ -103,31 +103,87 @@ class API:
             response.status = 500  # 500 Internal Server Error
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
 
+  
     def update_product(self, product_id):
-        """Atualiza um produto existente."""
-        # Nota: O upload de imagem na edição não está implementado aqui.
-        # Seria necessário usar a mesma lógica de multipart/form-data.
+        """
+        Atualiza um produto existente. Aceita dados de formulário (multipart/form-data)
+        e permite a atualização parcial dos dados, incluindo a imagem.
+        """
         try:
-            data = request.json
-            if not data:
+            # 1. Buscar o produto existente
+            original_product = self.product_db.get_product(product_id)
+            if not original_product:
+                response.status = 404
+                return self.to_json({"error": f"Produto com ID '{product_id}' não encontrado ou não existe no banco de dados."})
+
+            # 2. Lidar com o upload de uma nova imagem (se houver)
+            upload = request.files.get('productImage')
+            new_image_filename = None
+            if upload and upload.filename:
+                # Validação do tipo de arquivo
+                allowed_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.webp')
+                if not upload.filename.lower().endswith(allowed_extensions):
+                    response.status = 400
+                    return self.to_json({"error": "Formato de imagem inválido. Use PNG, JPG, JPEG, GIF ou WEBP."})
+
+                # Gerar um nome de arquivo único e salvar
+                file_extension = os.path.splitext(upload.filename)[1]
+                new_image_filename = f"{uuid4()}{file_extension}"
+                save_path = os.path.join(UPLOAD_FOLDER, new_image_filename)
+                upload.save(save_path)
+
+            # 3. Coletar os dados do formulário, usando os dados originais como fallback
+            nome = request.forms.get('productName')
+            descricao = request.forms.get('productDescription')
+            preco_str = request.forms.get('productPrice')
+            estoque_str = request.forms.get('productStock')
+            image_filename = new_image_filename
+            tamanho = request.forms.get("productSize")
+            categoria = request.forms.get("productCategory")
+
+            if (not nome) or (not descricao) or (not preco_str) or (not estoque_str) or (not tamanho) or (not categoria):
                 response.status = 400
-                return self.to_json({"error": "Corpo da requisição não pode ser vazio."})
+                return self.to_json({"error": "Um ou mais campos estão vazios."})
+            
 
-            data['id'] = product_id
-            updated_product = Roupa(**data)
+            # 4. Criar uma nova instância de Roupa com os dados atualizados
+            updated_product = Roupa(
+                id=str(product_id),
+                nome=nome,
+                descricao=descricao,
+                preco=float(preco_str),
+                estoque=int(estoque_str),
+                image_filename=image_filename,
+                tamanho=tamanho,
+                categoria=categoria)
 
+            # 5. Se uma nova imagem foi salva, remover a antiga
+            if new_image_filename and original_product.image_filename:
+                old_image_filename = original_product.image_filename
+                if old_image_filename:
+                    try:
+                        old_image_path = os.path.join(UPLOAD_FOLDER, old_image_filename)
+                        if os.path.exists(old_image_path):
+                            os.remove(old_image_path)
+                    except Exception as e:
+                        # Logar o erro, mas não impedir a atualização do produto
+                        print(f"AVISO: Não foi possível remover a imagem antiga '{old_image_filename}': {e}")
+
+            # 6. Passar a nova instância para o método de edição do "banco de dados"
             if self.product_db.edit_product(updated_product):
                 return self.to_json(updated_product)
             else:
-                response.status = 404
-                return self.to_json({"error": f"Produto com ID '{product_id}' não encontrado para edição."})
+                response.status = 500
+                return self.to_json({"error": "Ocorreu um erro ao salvar as alterações do produto."})
 
-        except TypeError as e:
+        except ValueError as e:
+            # Erro na conversão de preço/estoque
             response.status = 400
-            return self.to_json({"error": f"Dados inválidos para o produto: {e}"})
+            return self.to_json({"error": f"Valor inválido fornecido: {e}"})
         except Exception as e:
+            traceback.print_exc()
             response.status = 500
-            return self.to_json({"error": f"Ocorreu um erro inesperado: {e}"})
+            return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
 
     def delete_product(self, product_id):
         """Remove um produto e sua imagem associada."""
