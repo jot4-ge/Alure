@@ -3,7 +3,7 @@ from app.models.roupa import Roupa
 from typing import Optional
 
 
-class ProductRecord():
+class ProductRecord:
 
     def __init__(self):
         self.__products = []
@@ -27,15 +27,9 @@ class ProductRecord():
         except FileNotFoundError:
             print("ERRO save(): Json não encontrado ou erro de permissão.")
 
-    def add_product(self, product: Roupa) -> bool:
-
-        if any(hasattr(p, 'id') and str(p.id) == str(product.id) for p in self.__products):
-            print(f"AVISO: Produto com ID '{product.id}' já existe. Não adicionado.")
-            return False
-
+    def add_product(self, product: Roupa) -> None:
         self.__products.append(product)
         self.save()
-        return True
 
     def get_product(self, product_id: str) -> Optional[Roupa]:
         for product in self.__products:
@@ -72,3 +66,6 @@ class ProductRecord():
     def get_all_products(self) -> list[Roupa]:
         """Retorna uma cópia da lista de todos os produtos."""
         return self.__products[:]
+
+    def get_NumOfProducts(self) -> int:
+        return len(self.__products)

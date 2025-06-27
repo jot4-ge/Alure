@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alure - Adicionar Produto</title>
-  <!-- Link to the new CSS file for this page -->
+  <title>Admin - Adicionar Produto</title>
   <link rel="stylesheet" href="/static/css/admin_pages/add_product.css">
 </head>
 <body>
@@ -24,34 +23,62 @@
     <section class="add-product-section">
       <h2>Adicionar Novo Produto</h2>
       <form id="addProductForm" class="product-form">
-        <div class="form-group">
-          <label for="productName">Nome do Produto:</label>
-          <input type="text" id="productName" name="productName" required>
-        </div>
-        <div class="form-group">
-          <label for="productCategory">Categoria:</label>
-          <select id="productCategory" name="productCategory" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="streetwear">Streetwear</option>
-            <option value="camisetas">Camisetas</option>
-            <option value="acessorios">Acessórios</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="productPrice">Preço (R$):</label>
-          <input type="number" id="productPrice" name="productPrice" step="0.01" required>
-        </div>
-        <div class="form-group">
-          <label for="productImage">URL da Imagem:</label>
-          <input type="url" id="productImage" name="productImage" required>
-        </div>
-        <div class="form-group">
-          <label for="productDescription">Descrição:</label>
-          <textarea id="productDescription" name="productDescription" rows="5"></textarea>
-        </div>
-        <button type="submit">Adicionar Produto</button>
-      </form>
-      <!-- Message area for feedback -->
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label for="productName">Nome do Produto:</label>
+            <input type="text" id="productName" name="productName" required>
+          </div>
+
+          <!-- Descrição -->
+          <div class="form-group">
+            <label for="productDescription">Descrição:</label>
+            <textarea id="productDescription" name="productDescription" rows="5" required></textarea>
+          </div>
+
+          <!-- Preço -->
+          <div class="form-group">
+            <label for="productPrice">Preço (R$):</label>
+            <input type="text" id="productPrice" name="productPrice" step="0.01" required>
+          </div>
+
+          <!-- Estoque -->
+          <div class="form-group">
+            <label for="productStock">Estoque:</label>
+            <input type="number" id="productStock" name="productStock" min="0" required>
+          </div>
+
+          <!-- Campo de Upload de Imagem -->
+          <div class="form-group">
+            <label for="productImage">Upload da Imagem:</label>
+            <input type="file" id="productImage" name="productImage" accept="image/*">
+          </div>
+
+          <!-- Tamanho -->
+          <div class="form-group">
+            <label for="productSize">Tamanho:</label>
+            <select id="productSize" name="productSize" required>
+              <option value="">Selecione o tamanho</option>
+              <option value="P">P</option>
+              <option value="M">M</option>
+              <option value="G">G</option>
+              <option value="GG">GG</option>
+            </select>
+          </div>
+
+          <!-- Categoria -->
+          <div class="form-group">
+            <label for="productCategory">Categoria:</label>
+            <select id="productCategory" name="productCategory" required>
+              <option value="">Selecione uma categoria</option>
+              <option value="streetwear">Streetwear</option>
+              <option value="camisetas">Camisetas</option>
+              <option value="acessorios">Acessórios</option>
+            </select>
+          </div>
+
+          <button type="submit">Adicionar Produto</button>
+        </form>
       <div id="messageArea" class="message-area"></div>
     </section>
   </main>
