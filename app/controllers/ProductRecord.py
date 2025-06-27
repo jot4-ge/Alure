@@ -11,21 +11,39 @@ class ProductRecord:
 
     def read(self):
         try:
-            with open("app/controllers/db/products.json", "r") as arquivo_json:
+            with open("app/controllers/db/products.json", "r", encoding="utf-8") as arquivo_json:
                 product_data = json.load(arquivo_json)
-                self.__products = [Roupa(**roupa_data) for roupa_data in product_data]
+                self.__products = [
+                    Roupa(
+                        id=produto.get("id") or produto.get("_id"),
+                        nome=produto["nome"],
+                        descricao=produto["descricao"],
+                        preco=produto["preco"],
+                        estoque=produto["estoque"],
+                        image_filename=produto.get("image_filename") or produto.get("imagem"),
+                        tamanho=produto["tamanho"],
+                        categoria=produto["categoria"]
+                    )
+                    for produto in product_data
+                ]
         except FileNotFoundError:
-            print("ERRO read() DataRecord: Json não achado, lista de produtos vazia na memoria.")
+            print("ERRO read(): Json não achado, lista de produtos vazia na memória.")
+            self.__products = []
         except json.JSONDecodeError:
-            print("ERRO read() DataRecord: Erro ao decodificar JSON. O arquivo pode estar corrompido.")
+            print("ERRO read(): Erro ao decodificar JSON. O arquivo pode estar corrompido.")
             self.__products = []
 
     def save(self):
         try:
-            with open("app/controllers/db/products.json", "w") as arquivo_json:
-                json.dump([roupa.__dict__ for roupa in self.__products], arquivo_json, indent=4)
-        except FileNotFoundError:
-            print("ERRO save(): Json não encontrado ou erro de permissão.")
+            with open("app/controllers/db/products.json", "w", encoding="utf-8") as arquivo_json:
+                json.dump(
+                    [roupa.__dict__ for roupa in self.__products],
+                    arquivo_json,
+                    indent=4,
+                    ensure_ascii=False
+                )
+        except Exception as e:
+            print(f"ERRO save(): {e}")
 
     def add_product(self, product: Roupa) -> None:
         self.__products.append(product)
@@ -39,7 +57,9 @@ class ProductRecord:
 
     def remove_product(self, product_id: str) -> bool:
         initial_len = len(self.__products)
-        self.__products = [p for p in self.__products if not (hasattr(p, 'id') and str(p.id) == str(product_id))]
+        self.__products = [
+            p for p in self.__products if not (hasattr(p, 'id') and str(p.id) == str(product_id))
+        ]
 
         if len(self.__products) < initial_len:
             self.save()
@@ -64,7 +84,6 @@ class ProductRecord:
             return False
 
     def get_all_products(self) -> list[Roupa]:
-        """Retorna uma cópia da lista de todos os produtos."""
         return self.__products[:]
 
     def get_NumOfProducts(self) -> int:

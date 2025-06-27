@@ -80,7 +80,6 @@ class API:
                 response.status = 400
                 return self.to_json({"error": "Todos os campos de texto são obrigatórios."})
 
-
             # 4. Criar a instância de Roupa e salvar
             product_id = self.product_db.get_NumOfProducts() + 1
 
@@ -135,3 +134,16 @@ class API:
         product_to_delete = self.product_db.get_product(product_id)
         if not product_to_delete:
             response.status = 404
+            return self.to_json({"error": f"Produto com ID '{product_id}' não encontrado."})
+
+        # Tentar remover imagem associada (se existir)
+        try:
+            image_path = os.path.join(UPLOAD_FOLDER, product_to_delete.image_filename)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+        except Exception as e:
+            print(f"Erro ao tentar remover a imagem do produto: {e}")
+
+        # Remover produto do banco
+        self.product_db.remove_product(product_id)
+        return self.to_json({"message": f"Produto com ID '{product_id}' removido com sucesso."})
