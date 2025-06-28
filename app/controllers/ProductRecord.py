@@ -1,17 +1,23 @@
 import json
 from app.models.roupa import Roupa
 from typing import Optional
+import os
 
 
 class ProductRecord:
 
     def __init__(self):
+        script_dir = os.path.dirname(__file__)
+        db_dir = os.path.join(script_dir, 'db')
+        os.makedirs(db_dir, exist_ok=True)
+        self.file_path = os.path.join(db_dir, 'products.json')
+
         self.__products = []
         self.read()
 
     def read(self):
         try:
-            with open("app/controllers/db/products.json", "r", encoding="utf-8") as arquivo_json:
+            with open(self.file_path, "r", encoding="utf-8") as arquivo_json:
                 product_data = json.load(arquivo_json)
                 self.__products = [
                     Roupa(
@@ -28,14 +34,17 @@ class ProductRecord:
                 ]
         except FileNotFoundError:
             print("ERRO read(): Json não achado, lista de produtos vazia na memória.")
-            self.__products = []
+            with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
+                json.dump([], arquivo_json)
+            return
         except json.JSONDecodeError:
             print("ERRO read(): Erro ao decodificar JSON. O arquivo pode estar corrompido.")
-            self.__products = []
+            with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
+                json.dump([], arquivo_json)
 
     def save(self):
         try:
-            with open("app/controllers/db/products.json", "w", encoding="utf-8") as arquivo_json:
+            with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
                 json.dump(
                     [roupa.to_dict() for roupa in self.__products],
                     arquivo_json,

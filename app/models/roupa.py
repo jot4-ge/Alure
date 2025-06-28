@@ -18,6 +18,7 @@ class Roupa(Produto):
             "preco": self.preco,  # Usa a property, que retorna o valor de _preco
             "estoque": self.estoque,  # Usa a property, que retorna o valor de _estoque
             "image_filename": self.image_filename,
+            "descricao" : self.descricao,
             "categoria": self.categoria,
             "tamanho": self.tamanho
         }

@@ -157,9 +157,12 @@ class API:
             descricao = request.forms.get('productDescription')
             preco_str = request.forms.get('productPrice')
             estoque_str = request.forms.get('productStock')
-            image_filename = new_image_filename
             tamanho = request.forms.get("productSize")
             categoria = request.forms.get("productCategory")
+            if new_image_filename:
+                image_filename = new_image_filename
+            else:
+                image_filename = original_product.image_filename
 
             if (not nome) or (not descricao) or (not preco_str) or (not estoque_str) or (not tamanho) or (not categoria):
                 response.status = 400
