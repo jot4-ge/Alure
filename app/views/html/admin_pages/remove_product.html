@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Remover Produtos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Produto</title>
+    <link rel="stylesheet" href="/static/css/admin_pages/remove_product.css">
 </head>
 <body>
+    <main>
+        <div class="remove-container">
+            <h1>Remover Produto</h1>
+            <p>Insira o ID ou o nome do produto que deseja remover. A remoção é permanente.</p>
 
+            <form id="removeProductForm">
+                <div class="form-group">
+                    <label for="productId">ID do Produto:</label>
+                    <input type="text" id="productId" name="productId" placeholder="Digite o ID aqui...">
+                </div>
+
+                <div class="form-group">
+                    <label for="productName">Nome do Produto:</label>
+                    <input type="text" id="productName" name="productName" list="productList" placeholder="...ou digite o nome para buscar">
+                    <datalist id="productList"></datalist>
+                </div>
+
+                <button type="submit">Remover Produto</button>
+            </form>
+
+            <div id="messageArea" class="message-area"></div>
+        </div>
+    </main>
+
+    <script src="/static/js/admin_pages/remove_product.js" defer></script>
 </body>
 </html>

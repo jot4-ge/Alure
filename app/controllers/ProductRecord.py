@@ -15,14 +15,14 @@ class ProductRecord:
                 product_data = json.load(arquivo_json)
                 self.__products = [
                     Roupa(
-                        id=produto.get("id") or produto.get("_id"),
-                        nome=produto["nome"],
-                        descricao=produto["descricao"],
-                        preco=produto["preco"],
-                        estoque=produto["estoque"],
-                        image_filename=produto.get("image_filename") or produto.get("imagem"),
-                        tamanho=produto["tamanho"],
-                        categoria=produto["categoria"]
+                        id=str(produto.get("id")),
+                        nome=produto.get("nome", "None"),
+                        descricao=produto.get("descricao", ""),
+                        preco=float(produto.get("preco", 0.0)),
+                        estoque=int(produto.get("estoque", 0)),
+                        image_filename=produto.get("image_filename", ""),
+                        tamanho=produto.get("tamanho", ""),
+                        categoria=produto.get("categoria", "")
                     )
                     for produto in product_data
                 ]
@@ -37,7 +37,7 @@ class ProductRecord:
         try:
             with open("app/controllers/db/products.json", "w", encoding="utf-8") as arquivo_json:
                 json.dump(
-                    [roupa.__dict__ for roupa in self.__products],
+                    [roupa.to_dict() for roupa in self.__products],
                     arquivo_json,
                     indent=4,
                     ensure_ascii=False
@@ -54,6 +54,12 @@ class ProductRecord:
             if hasattr(product, 'id') and str(product.id) == str(product_id):
                 return product
         return None
+    def get_product_by_name(self,product_name):
+        for product in self.__products:
+            if product.nome == product_name:
+                return product
+        return None
+
 
     def remove_product(self, product_id: str) -> bool:
         initial_len = len(self.__products)

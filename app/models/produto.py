@@ -2,11 +2,11 @@ from __future__ import annotations
 from typing import Dict, Any
 
 class Produto:
-    _id: str
+    id: str
     nome: str
     descricao: str
-    _preco: float
-    _estoque: int
+    preco: float
+    estoque: int
     image_filename: str
     categoria: str
 

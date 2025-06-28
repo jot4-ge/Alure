@@ -84,6 +84,11 @@ def api_get_product(product_id):
     """Rota para buscar um produto específico pelo ID."""
     return api.get_product_by_id(product_id)
 
+@app.route('/api/products/get-name/<product_name>', method='GET')
+def api_get_product(product_name):
+    """Rota para buscar um produto específico pelo nome."""
+    return api.get_product_by_name(product_name)
+
 @app.route('/api/products', method='POST')
 def api_create_product():
     """Rota para adicionar um novo produto."""

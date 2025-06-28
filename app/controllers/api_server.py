@@ -1,6 +1,8 @@
 import json
 import os
 import traceback
+import random
+import string
 from uuid import uuid4
 from bottle import request, response
 from app.controllers.ProductRecord import ProductRecord
@@ -24,12 +26,21 @@ class API:
         """Inicializa a API e sua conexão com o 'banco de dados' de produtos."""
         self.product_db = ProductRecord()
 
+    def _generate_unique_product_id(self, length: int = 5) -> str:
+        chars = string.ascii_lowercase + string.digits
+        while True:
+            candidate_id = ''.join(random.choices(chars, k=length))
+            if not self.product_db.get_product(candidate_id):
+                return candidate_id
     @staticmethod
-    def to_json(data):
+    def to_json(data: any) -> str:
         """Converte dados para uma resposta JSON com o header correto."""
         response.content_type = 'application/json'
-        # Adicionado um to_dict() para serializar objetos de forma mais controlada, se o método existir.
-        return json.dumps(data, default=lambda o: o.__dict__, indent=4)
+        return json.dumps(
+            data,
+            default=lambda o: o.to_dict() if hasattr(o, 'to_dict') else o.__dict__,
+            indent=4
+        )
 
     def get_all_products(self):
         """Retorna a lista de todos os produtos."""
@@ -43,6 +54,15 @@ class API:
             return self.to_json(product)
         response.status = 404
         return self.to_json({"error": f"Produto com ID '{product_id}' não encontrado."})
+
+    def get_product_by_name(self, product_name):
+        """Busca e retorna um produto específico pelo seu nome."""
+        product = self.product_db.get_product_by_name(product_name)
+        if product:
+            return self.to_json(product)
+        response.status = 404
+        return self.to_json({"error": f"Produto com nome '{product_name}' não encontrado."})
+
 
     def create_product(self):
         """Cria um novo produto a partir de um formulário com upload de imagem."""
@@ -81,7 +101,7 @@ class API:
                 return self.to_json({"error": "Todos os campos de texto são obrigatórios."})
 
             # 4. Criar a instância de Roupa e salvar
-            product_id = self.product_db.get_NumOfProducts() + 1
+            product_id = self._generate_unique_product_id()
 
             new_product = Roupa(
                 id=str(product_id),

@@ -1,12 +1,1 @@
-[
-    {
-        "_id": "1",
-        "nome": "seta",
-        "descricao": "setinha",
-        "preco": 20.98,  
-        "estoque": 12,   
-        "image_filename": "5e1a85f7-6352-4c27-8be1-ec42323704ca.jpg",
-        "categoria": "acessorios",
-        "tamanho": "P"
-    }
-]
+[]
