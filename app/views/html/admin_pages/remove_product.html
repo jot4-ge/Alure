@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="/static/css/admin_pages/remove_product.css">
 </head>
 <body>
+    <header>
+          <a href="/initial_page" class="logo">
+            <img src="/static/img/logo.jpg" alt="Logo da Alure">
+        </a>
+        <nav class="admin-nav">
+              <ul>
+            <li><a href="/admin">Painel Admin</a></li>
+            <li><a href="/admin/add-product">Adicionar Produto</a></li>
+            <li><a href="/admin/view-products">Visualizar Produtos</a></li>
+            <li><a href="/admin/remove-product" class="active">Remover Produto</a></li>
+            <li><a href="/admin/edit-product">Editar Produto</a></li>
+        </ul>
+        </nav>
+    </header>
+
     <main>
         <div class="remove-container">
             <h1>Remover Produto</h1>
@@ -15,13 +30,12 @@
             <form id="removeProductForm">
                 <div class="form-group">
                     <label for="productId">ID do Produto:</label>
-                    <input type="text" id="productId" name="productId" placeholder="Digite o ID aqui...">
+                    <input type="text" id="productId" name="productId" placeholder="Digite o ID e pressione Enter">
                 </div>
 
                 <div class="form-group">
                     <label for="productName">Nome do Produto:</label>
-                    <input type="text" id="productName" name="productName" list="productList" placeholder="...ou digite o nome para buscar">
-                    <datalist id="productList"></datalist>
+                    <input type="text" id="productName" name="productName" placeholder="...ou digite o nome e pressione Enter">
                 </div>
 
                 <button type="submit">Remover Produto</button>

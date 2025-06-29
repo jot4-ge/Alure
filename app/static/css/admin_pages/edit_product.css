@@ -1,10 +1,13 @@
-/* Import common variables and base styles from admin.css */
+/* /home/tiago/Projects/LojaVirtual/app/static/css/admin_pages/edit_product.css */
+
+/* 1. Variáveis e Estilos Globais */
 :root {
   --roxo: #6A1B9A;
   --preto: #151515;
-  --cinza: #f5f5f5;
   --cinza-claro: #cccccc;
   --branco: #ffffff;
+  --vermelho-perigo: #dc3545;
+  --verde-sucesso: #28a745;
 }
 
 html, body {
@@ -18,6 +21,7 @@ html, body {
   flex-direction: column;
 }
 
+/* 2. Cabeçalho e Navegação do Admin (ATUALIZADO) */
 header {
   background-color: var(--preto);
   padding: 1rem 2rem;
@@ -32,23 +36,37 @@ header {
   width: auto;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
+.admin-nav {
+  flex-grow: 1;
+  text-align: center;
 }
 
-nav a {
+.admin-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 2.5rem;
+}
+
+.admin-nav a {
   text-decoration: none;
   color: var(--branco);
   font-weight: bold;
-  transition: color 0.2s;
+  font-size: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
-nav a:hover {
+.admin-nav a:hover {
   color: var(--roxo);
+  border-bottom-color: var(--roxo);
+}
+
+.admin-nav a.active {
+  color: var(--roxo);
+  border-bottom-color: var(--roxo);
 }
 
 .header-actions {
@@ -60,27 +78,26 @@ nav a:hover {
 .header-actions a {
   font-size: 1.5rem;
   color: var(--branco);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
+.header-actions a:hover {
+  color: var(--roxo);
+}
+
+/* 3. Layout Principal */
 main {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Alinha ao topo para formulários longos */
   padding: 3rem 2rem;
 }
 
-h2 {
-  font-size: 2rem;
-  text-align: center;
-  color: var(--roxo);
-  margin-bottom: 2rem;
-}
-
-/* Styles specific to the edit product section */
+/* 4. Seção de Edição de Produto */
 .edit-product-section {
   background-color: #1a1a1a;
-  margin: 3rem auto;
   padding: 2rem;
   max-width: 800px;
   border-radius: 10px;
@@ -88,44 +105,56 @@ h2 {
   width: 100%;
 }
 
-.load-product-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--roxo);
+  margin-top: 0;
   margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #444; /* Separator for clarity */
+}
+
+/* 5. Container de Carregamento de Produto */
+.load-product-container {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .load-product-container .form-group {
-  margin-bottom: 0; /* Override default form-group margin */
+    margin-bottom: 0;
 }
 
-.load-product-container input[type="text"] {
-  width: calc(100% - 22px);
-  padding: 10px;
-  border: 1px solid var(--roxo);
-  border-radius: 5px;
-  background-color: #333;
-  color: var(--branco);
-  font-size: 1rem;
+.input-with-button {
+    display: flex;
 }
 
-.load-product-container button {
-  background-color: #4CAF50; /* Green for load button */
-  color: var(--branco);
-  border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 1.1rem;
+.input-with-button input {
+    flex-grow: 1;
+    border-radius: 5px 0 0 5px;
+    border-right: none;
 }
 
-.load-product-container button:hover {
-  background-color: #45a049;
+.input-with-button button {
+    border-radius: 0 5px 5px 0;
+    flex-shrink: 0;
+    padding: 0 1.5rem;
+    background-color: var(--roxo);
+    border: none;
+    color: var(--branco);
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+.input-with-button button:hover {
+    background-color: #8e24aa;
+}
+
+/* 6. Estilos do Formulário de Produto */
 .product-form .form-group {
   margin-bottom: 1.5rem;
 }
@@ -137,29 +166,49 @@ h2 {
   color: var(--cinza-claro);
 }
 
+/* Estilo comum para todos os campos de formulário */
 .product-form input[type="text"],
 .product-form input[type="number"],
-.product-form input[type="url"],
+.product-form input[type="file"],
 .product-form select,
-.product-form textarea {
-  width: calc(100% - 22px); /* Account for padding and border */
+.product-form textarea,
+.load-product-container input[type="text"] {
+  width: 100%;
   padding: 10px;
   border: 1px solid var(--roxo);
   border-radius: 5px;
   background-color: #333;
   color: var(--branco);
   font-size: 1rem;
+  box-sizing: border-box; /* Garante que padding não afete a largura total */
 }
 
 .product-form textarea {
   resize: vertical;
 }
 
+.current-image-preview {
+    margin-top: 1rem;
+}
+
+.current-image-preview p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--cinza-claro);
+}
+
+.current-image-preview img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
 .product-form button[type="submit"] {
   background-color: var(--roxo);
   color: var(--branco);
   border: none;
-  padding: 0.7rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -173,24 +222,27 @@ h2 {
   background-color: #8e24aa;
 }
 
+/* 7. Área de Mensagens */
 .message-area {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 5px;
   text-align: center;
   font-weight: bold;
+  display: none; /* Oculto por padrão, controlado via JS */
 }
 
 .message-area.success {
-  background-color: #28a745; /* Green for success */
+  background-color: var(--verde-sucesso);
   color: var(--branco);
 }
 
 .message-area.error {
-  background-color: #dc3545; /* Red for error */
+  background-color: var(--vermelho-perigo);
   color: var(--branco);
 }
 
+/* 8. Rodapé */
 footer {
   background-color: #111;
   color: var(--cinza-claro);
@@ -203,7 +255,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Responsive adjustments */
+/* 9. Ajustes Responsivos */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -211,14 +263,9 @@ footer {
     padding: 1rem;
   }
 
-  nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
+  .admin-nav ul {
+    flex-direction: column;
     gap: 1rem;
-  }
-
-  .header-actions {
-    justify-content: center;
   }
 
   main {
@@ -226,16 +273,10 @@ footer {
   }
 
   .edit-product-section {
-    margin: 2rem auto;
     padding: 1.5rem;
   }
 
-  .load-product-container input[type="text"],
-  .product-form input[type="text"],
-  .product-form input[type="number"],
-  .product-form input[type="url"],
-  .product-form select,
-  .product-form textarea {
-    width: calc(100% - 20px);
+  .load-product-container {
+      flex-direction: column;
   }
 }

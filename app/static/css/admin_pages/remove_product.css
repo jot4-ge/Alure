@@ -1,20 +1,13 @@
-
-/* 1. Variáveis de Cor e Estilo (baseado em add_product.css) */
+/* 1. Variáveis e Estilos Globais */
 :root {
   --roxo: #6A1B9A;
   --preto: #151515;
   --cinza-claro: #cccccc;
   --branco: #ffffff;
-
-  /* Cor específica para ações destrutivas */
-  --cor-perigo: #dc3545;
-  --cor-perigo-hover: #c9302c;
-
-  /* Cores para mensagens de status */
-  --cor-sucesso: #28a745;
+  --vermelho-perigo: #dc3545; /* Padronizado */
+  --verde-sucesso: #28a745;   /* Padronizado */
 }
 
-/* 2. Estilos Globais e de Corpo */
 html, body {
   margin: 0;
   padding: 0;
@@ -22,56 +15,119 @@ html, body {
   background-color: var(--preto);
   color: var(--branco);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* 2. Cabeçalho e Navegação do Admin */
+header {
+  background-color: var(--preto);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--roxo);
+}
+
+.logo img {
+  height: 80px;
+  width: auto;
+}
+
+.admin-nav {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.admin-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 2.5rem;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: var(--branco);
+  font-weight: bold;
+  font-size: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+  color: var(--roxo);
+  border-bottom-color: var(--roxo);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-actions a {
+  font-size: 1.5rem;
+  color: var(--branco);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.header-actions a:hover {
+  color: var(--roxo);
+}
+
+/* 3. Layout Principal */
 main {
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 3rem 2rem;
 }
 
-/* 3. Container Principal (estilo de add_product.css) */
+/* 4. Seção de Remoção de Produto */
 .remove-container {
   background-color: #1a1a1a;
-  margin: 3rem auto;
   padding: 2rem;
-  max-width: 500px; /* Ajustado para um formulário menor */
+  max-width: 500px;
   border-radius: 10px;
   border: 1px solid var(--roxo);
   width: 100%;
   text-align: center;
 }
 
-h1 {
+.remove-container h1 {
   font-size: 2rem;
-  text-align: center;
-  color: var(--cor-perigo); /* Mantendo o vermelho para o título de remoção */
+  color: var(--vermelho-perigo);
   margin-top: 0;
   margin-bottom: 1rem;
 }
 
-p {
+.remove-container p {
   margin-bottom: 2rem;
   color: var(--cinza-claro);
   font-size: 0.95em;
   line-height: 1.5;
 }
 
-/* 4. Estilos do Formulário */
-.form-group {
+/* 5. Estilos do Formulário de Remoção */
+.remove-container .form-group {
   margin-bottom: 1.5rem;
   text-align: left;
 }
 
-label {
+.remove-container label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
   color: var(--cinza-claro);
 }
 
-input[type="text"] {
+.remove-container input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 1px solid var(--roxo);
@@ -83,22 +139,20 @@ input[type="text"] {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Foco acessível */
-input[type="text"]:focus-visible {
+.remove-container input[type="text"]:focus-visible {
   outline: none;
-  border-color: var(--cor-perigo);
+  border-color: var(--vermelho-perigo);
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
 }
 
-input[disabled] {
+.remove-container input[disabled] {
   background-color: #2a2a2a;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-/* 5. Botão de Ação */
-button {
-  background-color: var(--cor-perigo);
+.remove-container button {
+  background-color: var(--vermelho-perigo);
   color: var(--branco);
   border: none;
   padding: 0.7rem 1.5rem;
@@ -112,8 +166,8 @@ button {
   margin-top: 1rem;
 }
 
-button:hover {
-  background-color: var(--cor-perigo-hover);
+.remove-container button:hover {
+  background-color: #c9302c; /* Cor de hover explícita */
 }
 
 /* 6. Área de Mensagens */
@@ -123,29 +177,50 @@ button:hover {
   border-radius: 5px;
   text-align: center;
   font-weight: bold;
-  display: none; /* Escondido por padrão */
+  display: none;
 }
 
 .message-area.success {
-  background-color: var(--cor-sucesso);
+  background-color: var(--verde-sucesso);
   color: var(--branco);
-  display: block;
 }
 
 .message-area.error {
-  background-color: var(--cor-perigo);
+  background-color: var(--vermelho-perigo);
   color: var(--branco);
-  display: block;
 }
 
-/* 7. Responsividade */
+/* 7. Rodapé */
+footer {
+  background-color: #111;
+  color: var(--cinza-claro);
+  padding: 1.5rem 2rem;
+  margin-top: auto;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* 8. Ajustes Responsivos */
 @media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .admin-nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   main {
     padding: 2rem 1rem;
   }
 
   .remove-container {
-    margin: 2rem auto;
     padding: 1.5rem;
   }
 }

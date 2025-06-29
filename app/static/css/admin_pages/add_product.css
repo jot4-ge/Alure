@@ -1,9 +1,11 @@
+/* 1. Variáveis e Estilos Globais */
 :root {
   --roxo: #6A1B9A;
   --preto: #151515;
-  --cinza: #f5f5f5;
   --cinza-claro: #cccccc;
   --branco: #ffffff;
+  --vermelho-perigo: #dc3545;
+  --verde-sucesso: #28a745;
 }
 
 html, body {
@@ -17,6 +19,7 @@ html, body {
   flex-direction: column;
 }
 
+/* 2. Cabeçalho e Navegação do Admin (ATUALIZADO) */
 header {
   background-color: var(--preto);
   padding: 1rem 2rem;
@@ -31,23 +34,37 @@ header {
   width: auto;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
+.admin-nav {
+  flex-grow: 1;
+  text-align: center;
 }
 
-nav a {
+.admin-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 2.5rem;
+}
+
+.admin-nav a {
   text-decoration: none;
   color: var(--branco);
   font-weight: bold;
-  transition: color 0.2s;
+  font-size: 1rem;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
-nav a:hover {
+.admin-nav a:hover {
   color: var(--roxo);
+  border-bottom-color: var(--roxo);
+}
+
+.admin-nav a.active {
+  color: var(--roxo);
+  border-bottom-color: var(--roxo);
 }
 
 .header-actions {
@@ -59,26 +76,26 @@ nav a:hover {
 .header-actions a {
   font-size: 1.5rem;
   color: var(--branco);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
+.header-actions a:hover {
+  color: var(--roxo);
+}
+
+/* 3. Layout Principal */
 main {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 3rem 2rem;
 }
 
-h2 {
-  font-size: 2rem;
-  text-align: center;
-  color: var(--roxo);
-  margin-bottom: 2rem;
-}
-
+/* 4. Seção de Adicionar Produto */
 .add-product-section {
   background-color: #1a1a1a;
-  margin: 3rem auto;
   padding: 2rem;
   max-width: 800px;
   border-radius: 10px;
@@ -86,6 +103,15 @@ h2 {
   width: 100%;
 }
 
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--roxo);
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* 5. Estilos do Formulário de Produto */
 .product-form .form-group {
   margin-bottom: 1.5rem;
 }
@@ -99,7 +125,7 @@ h2 {
 
 .product-form input[type="text"],
 .product-form input[type="number"],
-.product-form input[type="url"],
+.product-form input[type="file"],
 .product-form select,
 .product-form textarea {
   width: 100%;
@@ -112,21 +138,15 @@ h2 {
   box-sizing: border-box;
 }
 
-.product-form select {
-  appearance: none;
-  background-color: #333;
-}
-
 .product-form textarea {
   resize: vertical;
-  min-height: 100px;
 }
 
 .product-form button[type="submit"] {
   background-color: var(--roxo);
   color: var(--branco);
   border: none;
-  padding: 0.7rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -140,24 +160,27 @@ h2 {
   background-color: #8e24aa;
 }
 
+/* 6. Área de Mensagens */
 .message-area {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 5px;
   text-align: center;
   font-weight: bold;
+  display: none; /* Oculto por padrão, controlado via JS */
 }
 
 .message-area.success {
-  background-color: #28a745;
+  background-color: var(--verde-sucesso);
   color: var(--branco);
 }
 
 .message-area.error {
-  background-color: #dc3545;
+  background-color: var(--vermelho-perigo);
   color: var(--branco);
 }
 
+/* 7. Rodapé */
 footer {
   background-color: #111;
   color: var(--cinza-claro);
@@ -170,7 +193,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Responsivo */
+/* 8. Ajustes Responsivos */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -178,14 +201,9 @@ footer {
     padding: 1rem;
   }
 
-  nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
+  .admin-nav ul {
+    flex-direction: column;
     gap: 1rem;
-  }
-
-  .header-actions {
-    justify-content: center;
   }
 
   main {
@@ -193,13 +211,6 @@ footer {
   }
 
   .add-product-section {
-    margin: 2rem auto;
     padding: 1.5rem;
-  }
-
-  .product-form input,
-  .product-form select,
-  .product-form textarea {
-    width: 100%;
   }
 }

@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Editar Produto</title>
-    <link rel="stylesheet" href="/static/css/admin_pages/add_product.css"> <link rel="stylesheet" href="/static/css/admin_pages/edit_product.css"> </head>
+    <!-- CSS da página de edição -->
+    <link rel="stylesheet" href="/static/css/admin_pages/edit_product.css">
+    <!-- Ícones para o cabeçalho e botões -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <body>
     <header>
         <a href="/initial_page" class="logo">
             <img src="/static/img/logo.jpg" alt="Logo da Alure">
         </a>
-        <nav>
-            <ul>
-                <li><a href="/add_product_page">Adicionar Produto</a></li>
-                <li><a href="/remove_product_page">Remover Produto</a></li>
-                <li><a href="/view_products_page">Visualizar Produtos</a></li>
-                <li><a href="/edit_product_page">Editar Produto</a></li>
-            </ul>
+
+        <!-- Barra de Navegação do Painel Admin Adicionada -->
+        <nav class="admin-nav">
+               <ul>
+            <li><a href="/admin">Painel Admin</a></li>
+            <li><a href="/admin/add-product" >Adicionar Produto</a></li>
+            <li><a href="/admin/view-products">Visualizar Produtos</a></li>
+            <li><a href="/admin/remove-product">Remover Produto</a></li>
+            <li><a href="/admin/edit-product" class="active">Editar Produto</a></li>
+        </ul>
         </nav>
+
         <div class="header-actions">
-            <a href="/conta">👤</a>
+            <a href="/conta" title="Minha Conta">👤</a>
         </div>
     </header>
 
@@ -27,20 +35,27 @@
         <section class="edit-product-section">
             <h2>Editar Produto</h2>
 
+            <!-- Seção de busca corrigida e melhorada -->
             <div class="load-product-container">
                 <div class="form-group">
                     <label for="loadProductId">Carregar Produto por ID:</label>
-                    <input type="text" id="loadProductId" placeholder="Digite o ID do produto para editar">
+                    <div class="input-with-button">
+                        <input type="text" id="loadProductId" placeholder="Digite o ID do produto">
+                        <button type="button" id="loadProductBtn">Carregar</button>
+                    </div>
                 </div>
-                <button type="button" id="loadProductBtn">Carregar Produto pelo ID</button>
                 <div class="form-group">
-                    <label for="loadProductId">Carregar Produto por ID:</label>
-                    <input type="text" id="loadProductName" placeholder="Digite o Nome exato do produto para editar">
+                    <label for="loadProductName">Carregar Produto por Nome:</label>
+                    <div class="input-with-button">
+                        <input type="text" id="loadProductName" placeholder="Digite o nome exato do produto">
+                        <button type="button" id="loadProductByNameBtn">Carregar</button>
+                    </div>
                 </div>
-                <button type="button" id="loadProductByNameBtn">Carregar Produto pelo Nome</button>
             </div>
 
-            <form id="editProductForm" class="product-form" style="display: none;"> <div class="form-group">
+            <!-- Formulário de Edição -->
+            <form id="editProductForm" class="product-form" style="display: none;">
+                <div class="form-group">
                     <label for="productId">ID do Produto:</label>
                     <input type="text" id="productId" name="productId" readonly>
                 </div>
@@ -57,7 +72,7 @@
 
                 <div class="form-group">
                     <label for="productPrice">Preço (R$):</label>
-                    <input type="text" id="productPrice" name="productPrice" step="0.01" required>
+                    <input type="text" id="productPrice" name="productPrice" placeholder="Ex: 129,90" required>
                 </div>
 
                 <div class="form-group">
@@ -70,7 +85,7 @@
                     <input type="file" id="productImage" name="productImage" accept="image/*">
                     <div class="current-image-preview">
                         <p>Imagem Atual:</p>
-                        <img id="currentProductImage" src="" alt="Imagem atual do produto">
+                        <img id="currentProductImage" src="" alt="Imagem atual do produto" style="display: none;">
                     </div>
                 </div>
 
@@ -82,7 +97,7 @@
                         <option value="M">M</option>
                         <option value="G">G</option>
                         <option value="GG">GG</option>
-                        </select>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -92,7 +107,7 @@
                         <option value="streetwear">Streetwear</option>
                         <option value="camisetas">Camisetas</option>
                         <option value="acessorios">Acessórios</option>
-                        </select>
+                    </select>
                 </div>
 
                 <button type="submit">Atualizar Produto</button>

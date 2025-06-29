@@ -1,1 +1,22 @@
-[   ]
+[
+    {
+        "id": "g7gja",
+        "nome": "Camiseta Nike",
+        "preco": 129.9,
+        "estoque": 10,
+        "image_filename": "6c7896ee-1a4e-400e-a380-c21749d29002.png",
+        "descricao": "camiseta",
+        "categoria": "streetwear",
+        "tamanho": "P"
+    },
+    {
+        "id": "5r8wi",
+        "nome": "seta",
+        "preco": 1.0,
+        "estoque": 1,
+        "image_filename": "350cf33a-226b-43af-8f08-bc35ee693006.jpg",
+        "descricao": "1",
+        "categoria": "streetwear",
+        "tamanho": "P"
+    }
+]

@@ -41,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!productImageFile || productImageFile.name === '') {
                 messageArea.textContent = 'Por favor, selecione uma imagem para o produto.';
                 messageArea.className = 'message-area error';
+                messageArea.style.display = 'block'
                 return;
             }
 
             messageArea.textContent = 'Adicionando produto...';
             messageArea.className = 'message-area';
+            messageArea.style.display = 'block'
 
             try {
                 const response = await fetch('/api/products', { // Endpoint da API
@@ -59,15 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     messageArea.textContent = 'Produto adicionado com sucesso! ID: ' + result.id;
                     messageArea.className = 'message-area success';
+                    messageArea.style.display = 'block'
                     form.reset(); // Limpa o formulário
                 } else {
                     messageArea.textContent = 'Erro ao adicionar produto: ' + (result.error || 'Erro desconhecido.');
                     messageArea.className = 'message-area error';
+                    messageArea.style.display = 'block'
                     console.error('Erro da API:', result);
                 }
             } catch (error) {
                 messageArea.textContent = 'Erro de conexão: Não foi possível conectar ao servidor.';
                 messageArea.className = 'message-area error';
+                messageArea.style.display = 'block'
                 console.error('Erro na requisição:', error);
             }
         });
