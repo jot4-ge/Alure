@@ -1,11 +1,13 @@
 from bottle import Bottle, redirect, static_file, HTTPResponse, TEMPLATE_PATH, request
 from app.controllers.application import Application
 from app.controllers.api_server import API
+from app.controllers.api_users import UsersAPI
 import os
 TEMPLATE_PATH.append(os.path.join(os.path.dirname(__file__), 'app/views/html'))
 
 app = Bottle()
 api = API()
+user_api = UsersAPI()
 ctl = Application()
 
 # ---------------- Static and Web Page Routes -----------------------
@@ -72,7 +74,7 @@ def edit_product():
 def view_products():
     return ctl.render("view_products", isAdmin=True)
 
-# ---------------- API RESTful Routes -----------------------
+# ----------------  Product API RESTful Routes -----------------------
 
 @app.route('/api/products', method='GET')
 def api_get_all_products():
@@ -104,6 +106,28 @@ def api_delete_product(product_id):
     """Rota para remover um produto."""
     return api.delete_product(product_id)
 
+# ---------------- User API RESTful Routes -----------------------
+
+@app.route('/api/users/signin', method='POST')
+def api_user_signin():
+    """Rota para registrar (criar) um novo usuário."""
+    return user_api.sign_in()
+
+@app.route('/api/users/login', method='POST')
+def api_user_login():
+    """Rota para autenticar um usuário e obter uma sessão."""
+    return user_api.login()
+
+@app.route('/api/users/logout', method='POST')
+def api_user_logout():
+    """Rota para desconectar um usuário (invalidar sessão)."""
+    return user_api.logout()
+
+@app.route('/api/users/me', method='GET')
+def api_get_user_info():
+    """Rota para obter informações do usuário logado."""
+    return user_api.get_current_user_info()
+
 # ---------------- Error Handling -----------------------
 
 @app.error(404)
@@ -112,8 +136,12 @@ def error404(error_):
     Trata erros 404. Retorna JSON para rotas de API
     e redireciona para rotas de páginas web.
     """
+    # O handle de erro da API de produtos pode ser generalizado ou
+    # você pode criar um específico para a API de usuários.
+    # Por enquanto, usaremos o da API de produtos como exemplo.
     if request.path.startswith('/api/'):
-        return api.handle_404_error(error_)
+        response.status = 404
+        return api.to_json({"error": "Endpoint não encontrado."})
     else:
         print(f"Página não encontrada (404): {request.path}. Redirecionando...")
         return HTTPResponse(status=302, headers={'Location': '/initial_page'})

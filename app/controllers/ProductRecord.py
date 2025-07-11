@@ -33,12 +33,12 @@ class ProductRecord:
                     for produto in product_data
                 ]
         except FileNotFoundError:
-            print("ERRO read(): Json não achado, lista de produtos vazia na memória.")
+            print("ERRO read() ProductRecord: Json não achado, lista de produtos vazia na memória.")
             with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
                 json.dump([], arquivo_json)
             return
         except json.JSONDecodeError:
-            print("ERRO read(): Erro ao decodificar JSON. O arquivo pode estar corrompido.")
+            print("ERRO read() ProductRecord: Erro ao decodificar JSON. O arquivo pode estar corrompido.")
             with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
                 json.dump([], arquivo_json)
 
