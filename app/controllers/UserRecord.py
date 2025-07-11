@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 from typing import List, Dict, Optional
-from app.models.user_account import UserAccount
+from app.models.usuario import UserAccount
 
 
 class UserRecord:
