@@ -29,18 +29,21 @@ class UsersAPI:
         """
         try:
             data = request.json
-            if not data or 'username' not in data or 'password' not in data:
+            if not data or 'username' not in data or 'password' not in data or 'email' not in data or 'telephone_num' not in data:
                 response.status = 400
-                return self.to_json({"error": "Campos 'username' e 'password' são obrigatórios."})
+                return self.to_json({"error": "Campos não preenchidos corretamente."})
 
             username = data.get('username')
+            email = data.get('email')
+            telephone_num = data.get('telephone_num')
             password = data.get('password')
+
 
             if not (isinstance(username, str) and username.strip() and isinstance(password, str) and password):
                 response.status = 400
                 return self.to_json({"error": "Username e password devem ser strings não vazias."})
 
-            new_user_created = self.user_db.sign_in(username, password)
+            new_user_created = self.user_db.sign_in(username,email,telephone_num, password)
 
             if new_user_created:
                 response.status = 201

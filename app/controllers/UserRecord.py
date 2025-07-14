@@ -62,7 +62,7 @@ class UserRecord:
             user_data = [user.to_dict() for user in self.__user_accounts]
             json.dump(user_data, f, indent=4)
 
-    def sign_in(self, username: str, password: str) -> Optional[UserAccount]:
+    def sign_in(self, username: str,email: str, telephone_num : str, password: str) -> Optional[UserAccount]:
         if any(user.username == username for user in self.__user_accounts):
             print(f"Erro: Usuário '{username}' já existe.")
             return None
@@ -72,7 +72,7 @@ class UserRecord:
 
         try:
             # Passa o bytearray para a função de criação
-            new_user = UserAccount.create_with_raw_password(username, password_bytes)
+            new_user = UserAccount.create_with_raw_password(username,email,telephone_num, password_bytes)
             self.__user_accounts.append(new_user)
             self._save()
             return True
