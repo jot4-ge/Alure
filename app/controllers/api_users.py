@@ -2,6 +2,7 @@ import json
 import traceback
 from bottle import request, response
 from app.controllers.UserRecord import UserRecord
+from typing import Optional
 
 class UsersAPI:
     """
@@ -21,7 +22,6 @@ class UsersAPI:
             default=lambda o: o.to_dict() if hasattr(o, 'to_dict') else o.__dict__,
             indent=4
         )
-
     def sign_in(self):
         """
         Registra (cria) um novo usuário.
@@ -37,7 +37,6 @@ class UsersAPI:
             email = data.get('email')
             telephone_num = data.get('telephone_num')
             password = data.get('password')
-
 
             if not (isinstance(username, str) and username.strip() and isinstance(password, str) and password):
                 response.status = 400
@@ -61,34 +60,30 @@ class UsersAPI:
         """
         Autentica um usuário e retorna um ID de sessão.
         Espera um JSON no corpo da requisição com 'username' e 'password'.
+        Se o usuário já estiver logado, invalida a sessão antiga e cria uma nova.
         """
         try:
             data = request.json
             if not data or 'username' not in data or 'password' not in data:
-                response.status = 400
+                response.status = 400  # Bad Request
                 return self.to_json({"error": "Campos 'username' e 'password' são obrigatórios."})
 
             username = data.get('username')
             password = data.get('password')
 
-            if self.user_db.isUserLoggedIn(username):
-                response.status = 409
-                return self.to_json({"error": f"O usuário '{username}' já possui uma sessão ativa."})
-
             session_id = self.user_db.login(username, password)
 
             if session_id:
-                response.status = 200
+                response.status = 200  # OK
                 return self.to_json({"message": "Login bem-sucedido.", "session_id": session_id})
             else:
-                response.status = 401
+                response.status = 401  # Unauthorized
                 return self.to_json({"error": "Credenciais inválidas."})
 
         except Exception as e:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
-
     def logout(self):
         """
         Desconecta um usuário, invalidando seu ID de sessão.
@@ -154,7 +149,6 @@ class UsersAPI:
 
             session_id = parts[1]
 
-            # 3. Buscar o usuário
             user = self.user_db.get_current_user(session_id)
 
             if user:

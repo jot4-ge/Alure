@@ -7,6 +7,7 @@ from app.models.usuario import UserAccount
 
 class UserRecord:
 
+
     def __init__(self, filename: str):
         if not isinstance(filename, str):
             raise TypeError(f"Expected filename to be a string, but got {type(filename).__name__}")
@@ -45,7 +46,6 @@ class UserRecord:
         with open(auth_file_path, "w", encoding="utf-8") as arquivo_json:
             json.dump({}, arquivo_json)
 
-
     def save_auth_user(self):
         auth_file_path: str = os.path.join(self.db_dir, "auth_users.json")
         serializable_users = {}
@@ -83,8 +83,6 @@ class UserRecord:
             # Sobrescreve o bytearray com zeros, garantindo a remoção da memória.
             password_bytes[:] = b'\x00' * len(password_bytes)
 
-    def isUserLoggedIn(self, username):
-        return any(user.username == username for user in self.__authenticated_users.values())
     def get_current_user(self, session_id: str) -> Optional[UserAccount]:
         return self.__authenticated_users.get(session_id)
 
