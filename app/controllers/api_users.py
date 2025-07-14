@@ -68,6 +68,10 @@ class UsersAPI:
             username = data.get('username')
             password = data.get('password')
 
+            if self.user_db.isUserLoggedIn(username):
+                response.status = 409
+                return self.to_json({"error": f"O usuário '{username}' já possui uma sessão ativa."})
+
             session_id = self.user_db.login(username, password)
 
             if session_id:
@@ -108,7 +112,24 @@ class UsersAPI:
             response.status = 500
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
 
+    def delete_user(self, user_id: str):
+        """
+        Deleta um usuário específico pelo seu ID.
+        """
+        try:
+            success = self.user_db.delete_user(user_id)
 
+            if success:
+                response.status = 200
+                return self.to_json({"message": f"Usuário com ID '{user_id}' deletado com sucesso."})
+            else:
+                response.status = 404
+                return self.to_json({"error": f"Usuário com ID '{user_id}' não encontrado."})
+
+        except Exception as e:
+            traceback.print_exc()
+            response.status = 500
+            return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
     def get_current_user_info(self):
         """
         Retorna informações do usuário logado a partir de um ID de sessão

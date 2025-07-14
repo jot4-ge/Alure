@@ -1,4 +1,4 @@
-from bottle import Bottle, redirect, static_file, HTTPResponse, TEMPLATE_PATH, request
+from bottle import Bottle, redirect, static_file, HTTPResponse, TEMPLATE_PATH, request,response
 from app.controllers.application import Application
 from app.controllers.api_server import API
 from app.controllers.api_users import UsersAPI
@@ -112,6 +112,11 @@ def api_delete_product(product_id):
 def api_user_signin():
     """Rota para registrar (criar) um novo usuário."""
     return user_api.sign_in()
+
+@app.route('/api/users/<user_id>', method='DELETE')
+def api_delete_user(user_id):
+    """Rota para deletar um usuario."""
+    return user_api.delete_user(user_id)
 
 @app.route('/api/users/login', method='POST')
 def api_user_login():

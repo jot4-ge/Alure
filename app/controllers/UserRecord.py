@@ -14,13 +14,15 @@ class UserRecord:
             raise ValueError("Expected filename to be a non-empty string.")
 
         script_dir = os.path.dirname(__file__)
-        db_dir = os.path.join(script_dir, 'db')
-        os.makedirs(db_dir, exist_ok=True)
-        self.file_path: str = os.path.join(db_dir, filename)
+        self.db_dir = os.path.join(script_dir, 'db')
+        os.makedirs(self.db_dir, exist_ok=True)
+        self.file_path: str = os.path.join(self.db_dir, filename)
 
-        self.__authenticated_users: Dict[session_id:str, UserAccount] = {}
+        self.__authenticated_users: Dict[str, UserAccount] = {}
+        self.__clear_auth_users()
         self.__user_accounts: List[UserAccount] = []
         self.read()
+
 
     def read(self) -> None:
         try:
@@ -37,6 +39,24 @@ class UserRecord:
             with open(self.file_path, "w", encoding="utf-8") as arquivo_json:
                 json.dump([], arquivo_json)
             return
+
+    def __clear_auth_users(self) -> None:
+        auth_file_path: str = os.path.join(self.db_dir, "auth_users.json")
+        with open(auth_file_path, "w", encoding="utf-8") as arquivo_json:
+            json.dump({}, arquivo_json)
+
+
+    def save_auth_user(self):
+        auth_file_path: str = os.path.join(self.db_dir, "auth_users.json")
+        serializable_users = {}
+        for session_id, user_object in self.__authenticated_users.items():
+            serializable_users[session_id] = user_object.to_dict()
+        try:
+            with open(auth_file_path, "w", encoding="utf-8") as arquivo_json:
+                json.dump(serializable_users, arquivo_json, indent=4)
+        except Exception as e:
+            print(f"ERRO em save_auth_user: Não foi possível salvar o arquivo de autenticação. Erro: {e}")
+
     def _save(self) -> None:
         with open(self.file_path, "w", encoding="utf-8") as f:
             user_data = [user.to_dict() for user in self.__user_accounts]
@@ -63,6 +83,8 @@ class UserRecord:
             # Sobrescreve o bytearray com zeros, garantindo a remoção da memória.
             password_bytes[:] = b'\x00' * len(password_bytes)
 
+    def isUserLoggedIn(self, username):
+        return any(user.username == username for user in self.__authenticated_users.values())
     def get_current_user(self, session_id: str) -> Optional[UserAccount]:
         return self.__authenticated_users.get(session_id)
 
@@ -85,6 +107,7 @@ class UserRecord:
             if user_to_check and user_to_check.verify_password(password_bytes):
                 session_id = str(uuid.uuid4())
                 self.__authenticated_users[session_id] = user_to_check
+                self.save_auth_user()
                 return session_id
 
             # Retorna None se o usuário não for encontrado ou a senha estiver incorreta
@@ -97,5 +120,28 @@ class UserRecord:
     def logout(self, session_id: str) -> bool:
         if session_id in self.__authenticated_users:
             del self.__authenticated_users[session_id]
+            self.save_auth_user()
             return True
         return False
+
+    def delete_user(self, user_id: str) -> bool:
+
+        len_before = len(self.__user_accounts)
+        self.__user_accounts = [
+            user for user in self.__user_accounts if user.id != user_id
+        ]
+        user_was_deleted = len(self.__user_accounts) < len_before
+
+        if user_was_deleted:
+            session_id_to_remove = None
+            for session_id, authenticated_user in self.__authenticated_users.items():
+                if authenticated_user.id == user_id:
+                    session_id_to_remove = session_id
+                    break
+
+            if session_id_to_remove:
+                del self.__authenticated_users[session_id_to_remove]
+                self.save_auth_user()
+
+            self._save()
+        return user_was_deleted
