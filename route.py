@@ -3,12 +3,32 @@ from app.controllers.application import Application
 from app.controllers.api_server import API
 from app.controllers.api_users import UsersAPI
 import os
+from functools import wraps
+
 TEMPLATE_PATH.append(os.path.join(os.path.dirname(__file__), 'app/views/html'))
 
 app = Bottle()
 api = API()
 user_api = UsersAPI()
 ctl = Application()
+
+# Define o decorador que verifica se o usuário está logado via cookie.
+# Esta é a abordagem padrão e segura para gerenciar sessões.
+def login_required(f):
+    """
+    Decorador que verifica se o usuário está logado (via cookie).
+    Se não estiver, redireciona para a página de login.
+    """
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+        if session_id:
+            user = user_api.user_db.get_current_user(session_id)
+            if user:
+                return f(user.to_dict_no_password(), *args, **kwargs)
+        # Se o cookie não existir ou for inválido, redireciona para o login.
+        return redirect('/login')
+    return wrapper
 
 # ---------------- Static and Web Page Routes -----------------------
 
@@ -24,17 +44,21 @@ def index():
 def initial_page():
     return ctl.render("initial_page")
 
+# As rotas a seguir agora exigem que o usuário esteja logado
 @app.route("/checkout", method=['GET'])
-def checkout():
-    return ctl.render("checkout")
+@login_required
+def checkout(user):
+    return ctl.render_with_data("checkout", user=user)
 
 @app.route("/carrinho", method=['GET'])
-def carrinho():
-    return ctl.render("carrinho")
+@login_required
+def carrinho(user):
+    return ctl.render_with_data("carrinho", user=user)
 
 @app.route("/perfil", method=['GET'])
-def perfil():
-    return ctl.render("perfil")
+@login_required
+def perfil(user):
+    return ctl.render_with_data("perfil", user=user)
 
 @app.route("/admin", method=['GET'])
 def admin():
@@ -55,6 +79,17 @@ def camisetas():
 @app.route('/favicon.ico', method='GET')
 def favicon():
     return static_file('favicon.ico', root='./app/static/img/')
+
+# ---------------- Account Routes -----------------------;
+
+@app.route("/login", method=['GET'])
+def login():
+    return ctl.render("login")
+
+@app.route("/register", method=['GET'])
+def register():
+    return ctl.render("register")
+
 
 # ---------------- Admin Web Page Routes -----------------------
 
@@ -108,7 +143,7 @@ def api_delete_product(product_id):
 
 # ---------------- User API RESTful Routes -----------------------
 
-@app.route('/api/users/signin', method='POST')
+@app.route('/api/users/register', method='POST')
 def api_user_signin():
     """Rota para registrar (criar) um novo usuário."""
     return user_api.sign_in()

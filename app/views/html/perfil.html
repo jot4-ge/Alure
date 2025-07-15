@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alure - Meu Perfil</title>
-  <link rel="stylesheet" href="/static/css/initial_page.css"> <link rel="stylesheet" href="/static/css/perfil.css"> </head>
+  <link rel="stylesheet" href="/static/css/initial_page.css">
+  <link rel="stylesheet" href="/static/css/perfil.css">
 <body>
   <header>
     <a href="/initial_page" class="logo">
@@ -22,28 +23,32 @@
       <form action="/initial_page" method="get">
         <input type="search" name="q" placeholder="Buscar">
       </form>
-      <a href="/conta">👤</a> <a href="/carrinho">🛒</a>
+      <a href="/perfil">👤</a> <a href="/carrinho">🛒</a>
     </div>
   </header>
 
   <main>
-    <section class="profile-section">
+    <section class="profile-section" data-user-id="{{ user.get('id') }}">
       <h2>Meu Perfil</h2>
 
       <div class="profile-info-card">
         <h3>Informações Pessoais</h3>
-        <p><strong>Nome:</strong> <span id="userNameDisplay">João Silva</span></p>
-        <p><strong>Email:</strong> <span id="userEmailDisplay">joao.silva@email.com</span></p>
-        <p><strong>Telefone:</strong> <span id="userPhoneDisplay">(11) 98765-4321</span></p>
-        <p><strong>Endereço:</strong> <span id="userAddressDisplay">Rua das Flores, 123 - Centro, São Paulo - SP, 01000-000</span></p>
-        <button id="editProfileBtn" class="primary-btn">Editar Perfil</button>
+        <p><strong>Nome de Usuário:</strong> <span>{{ user.get('username', 'Não disponível') }}</span></p>
+        <p><strong>Email:</strong> <span>{{ user.get('email', 'Não disponível') }}</span></p>
+        <p><strong>Telefone:</strong> <span>{{ user.get('telephone_num') or 'Não informado' }}</span></p>
+      </div>
+
+      <div class="profile-actions-card">
+        <h3>Ações da Conta</h3>
+        <button id="logoutBtn" class="secondary-btn">Sair (Logout)</button>
+        <button id="deleteAccountBtn" class="danger-btn">Deletar Conta</button>
       </div>
 
       <div class="profile-form-card hidden" id="profileEditFormCard">
         <h3>Editar Perfil</h3>
         <form id="profileEditForm" class="edit-form">
           <div class="form-group">
-            <label for="editUserName">Nome Completo:</label>
+            <label for="editUserName">Nome de Usuário:</label>
             <input type="text" id="editUserName" required>
           </div>
           <div class="form-group">
@@ -53,10 +58,6 @@
           <div class="form-group">
             <label for="editUserPhone">Telefone:</label>
             <input type="tel" id="editUserPhone">
-          </div>
-          <div class="form-group">
-            <label for="editUserAddress">Endereço:</label>
-            <textarea id="editUserAddress" rows="3"></textarea>
           </div>
           <div class="form-actions">
             <button type="submit" class="primary-btn">Salvar Alterações</button>

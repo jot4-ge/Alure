@@ -1,14 +1,38 @@
-/* login.css e register.css - baseados no perfil.css */
+/* /home/tiago/Projects/LojaVirtual/app/static/css/register.css */
 
-main {
-  padding: 3rem 2rem;
-  min-height: calc(100vh - 200px);
+/* Base Styles - Aligned with other pages for consistency */
+:root {
+  --roxo: #6A1B9A;
+  --preto: #151515;
+  --cinza: #f5f5f5;
+  --cinza-claro: #cccccc;
+  --branco: #ffffff;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--preto);
+  color: var(--branco);
+  min-height: 100vh;
+}
+
+/* Main Layout - Flexbox for vertical and horizontal centering */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Form Container Styles */
 .auth-section {
   max-width: 500px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  padding: 2.5rem;
   background-color: #1a1a1a;
   border-radius: 10px;
   border: 1px solid var(--roxo);
@@ -19,6 +43,7 @@ h2 {
   font-size: 2rem;
   text-align: center;
   color: var(--roxo);
+  margin-top: 0;
   margin-bottom: 2rem;
 }
 
@@ -35,14 +60,16 @@ h2 {
 
 .auth-form input[type="text"],
 .auth-form input[type="email"],
+.auth-form input[type="tel"],
 .auth-form input[type="password"] {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid var(--roxo);
   border-radius: 5px;
   background-color: #333;
   color: var(--branco);
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .auth-form .form-actions {
@@ -52,15 +79,18 @@ h2 {
   gap: 1rem;
 }
 
+/* Button Styles */
 .primary-btn {
   background-color: var(--roxo);
   color: var(--branco);
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 5px;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  text-align: center;
 }
 
 .primary-btn:hover {
@@ -68,16 +98,37 @@ h2 {
 }
 
 .secondary-btn {
-  background-color: #444;
+  background-color: transparent;
   color: var(--branco);
   padding: 0.8rem 1.5rem;
-  border: none;
+  border: 1px solid #444;
   border-radius: 5px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .secondary-btn:hover {
-  background-color: #555;
+  background-color: #2a2a2a;
+  border-color: #666;
+}
+
+/* Feedback Message Styles */
+.form-message {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.form-message.success {
+  background-color: #2e7d32; /* Verde escuro */
+  color: var(--branco);
+}
+
+.form-message.error {
+  background-color: #c62828; /* Vermelho escuro */
+  color: var(--branco);
 }

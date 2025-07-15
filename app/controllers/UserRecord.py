@@ -1,8 +1,14 @@
 import os
 import json
 import uuid
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from app.models.usuario import UserAccount
+from enum import Enum, auto
+
+class SignInResult(Enum):
+    SUCCESS = auto()
+    USERNAME_EXISTS = auto()
+    VALIDATION_ERROR = auto()
 
 
 class UserRecord:
@@ -62,23 +68,23 @@ class UserRecord:
             user_data = [user.to_dict() for user in self.__user_accounts]
             json.dump(user_data, f, indent=4)
 
-    def sign_in(self, username: str,email: str, telephone_num : str, password: str) -> Optional[UserAccount]:
+    def sign_in(self, username: str,email: str, telephone_num : str, password: str) -> Tuple[SignInResult, Optional[UserAccount]]:
         if any(user.username == username for user in self.__user_accounts):
             print(f"Erro: Usuário '{username}' já existe.")
-            return None
+            return SignInResult.USERNAME_EXISTS, None
 
         # Converte a senha para um tipo mutável (bytearray)
         password_bytes = bytearray(password.encode('utf-8'))
 
         try:
-            # Passa o bytearray para a função de criação
             new_user = UserAccount.create_with_raw_password(username,email,telephone_num, password_bytes)
             self.__user_accounts.append(new_user)
             self._save()
-            return True
+            # Retorna o status de sucesso e o objeto do novo usuário.
+            return SignInResult.SUCCESS, new_user
         except ValueError as e:
             print(f"Erro ao criar usuário: {e}")
-            return None
+            return SignInResult.VALIDATION_ERROR, None
         finally:
             # Sobrescreve o bytearray com zeros, garantindo a remoção da memória.
             password_bytes[:] = b'\x00' * len(password_bytes)

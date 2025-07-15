@@ -1,7 +1,7 @@
 from bottle import template
 
 
-class Application():
+class Application:
 
     def __init__(self):
         self.pages = {
@@ -12,7 +12,9 @@ class Application():
             "perfil": self.perfil,
             "camisetas": self.camisetas,
             "acessorios": self.acessorios,
-            "streetwear": self.streetwear
+            "streetwear": self.streetwear,
+            "login": self.login,
+            "register": self.register
         }
         self.admin_pages = {
             "add_product": self.add_product,
@@ -29,6 +31,10 @@ class Application():
             return content()
         content = self.pages.get(page)
         return content()
+
+    @staticmethod
+    def render_with_data(template_name: str, **kwargs):
+        return template(template_name, **kwargs)
 
     @staticmethod
     def checkout():
@@ -62,6 +68,15 @@ class Application():
     @staticmethod
     def streetwear():
         return template("product_catalogs/streetwear")
+
+    # ---------------------------- account routes ----------------------------
+    @staticmethod
+    def login():
+        return template("login")
+
+    @staticmethod
+    def register():
+        return template("register")
 
     #---------------------------- admin routes ----------------------------
     @staticmethod

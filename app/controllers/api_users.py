@@ -1,7 +1,7 @@
 import json
 import traceback
 from bottle import request, response
-from app.controllers.UserRecord import UserRecord
+from app.controllers.UserRecord import UserRecord, SignInResult
 from typing import Optional
 
 class UsersAPI:
@@ -25,31 +25,56 @@ class UsersAPI:
     def sign_in(self):
         """
         Registra (cria) um novo usuário.
-        Espera um JSON no corpo da requisição com 'username' e 'password'.
+        Espera um JSON no corpo da requisição com 'username', 'email', 'telephone_num' e 'password'.
         """
         try:
             data = request.json
-            if not data or 'username' not in data or 'password' not in data or 'email' not in data or 'telephone_num' not in data:
+            if not data:
                 response.status = 400
-                return self.to_json({"error": "Campos não preenchidos corretamente."})
+                return self.to_json({"error": "O corpo da requisição (JSON) está ausente."})
 
-            username = data.get('username')
-            email = data.get('email')
-            telephone_num = data.get('telephone_num')
-            password = data.get('password')
+            required_fields = ['username', 'email', 'telephone_num', 'password']
+            for field in required_fields:
+                value = data.get(field)
+                if value is None:
+                    response.status = 400
+                    return self.to_json({"error": f"O campo obrigatório '{field}' está ausente."})
+                if not isinstance(value, str) or not value.strip():
+                    response.status = 400
+                    return self.to_json({"error": f"O campo '{field}' não pode ser um texto vazio."})
 
-            if not (isinstance(username, str) and username.strip() and isinstance(password, str) and password):
-                response.status = 400
-                return self.to_json({"error": "Username e password devem ser strings não vazias."})
+            username = data.get("username")
+            email = data.get("email")
+            telephone_num = data.get("telephone_num")
+            password = data.get("password")
 
-            new_user_created = self.user_db.sign_in(username,email,telephone_num, password)
+            # A função agora retorna uma tupla (status, dados)
+            result, new_user = self.user_db.sign_in(username, email, telephone_num, password)
 
-            if new_user_created:
-                response.status = 201
-                return self.to_json({"message": f"Usuário '{username}' criado com sucesso."})
-            else:
+            if result == SignInResult.SUCCESS:
+                # Usuário criado, agora faz o login automático para criar a sessão.
+                session_id = self.user_db.login(username, password)
+
+                if not session_id:
+                    response.status = 500
+                    return self.to_json({"error": "Usuário criado, mas falha ao gerar a sessão."})
+
+                # Define o cookie seguro no navegador do usuário
+                response.set_cookie(
+                    "session_id",
+                    session_id,
+                    secret='uma-chave-secreta-muito-forte',
+                    httponly=True,
+                    path='/'
+                )
+                response.status = 201 # Created
+                return self.to_json({"message": f"Usuário '{username}' criado e logado com sucesso."})
+            elif result == SignInResult.USERNAME_EXISTS:
                 response.status = 409
-                return self.to_json({"error": f"Usuário '{username}' já existe."})
+                return self.to_json({"error": f"Nome de usuário '{username}' ou e-mail '{email}' já existe."})
+            elif result == SignInResult.VALIDATION_ERROR:
+                response.status = 400
+                return self.to_json({"error": "Dados inválidos. Verifique se a senha atende aos requisitos mínimos."})
 
         except Exception as e:
             traceback.print_exc()
@@ -75,6 +100,14 @@ class UsersAPI:
 
             if session_id:
                 response.status = 200  # OK
+                # Define o cookie seguro no navegador do usuário
+                response.set_cookie(
+                    "session_id",
+                    session_id,
+                    secret='uma-chave-secreta-muito-forte',
+                    httponly=True,
+                    path='/'
+                )
                 return self.to_json({"message": "Login bem-sucedido.", "session_id": session_id})
             else:
                 response.status = 401  # Unauthorized
@@ -86,24 +119,27 @@ class UsersAPI:
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
     def logout(self):
         """
-        Desconecta um usuário, invalidando seu ID de sessão.
-        Espera um JSON no corpo da requisição com 'session_id'.
+        Desconecta um usuário, invalidando sua sessão a partir do cookie.
         """
         try:
-            data = request.json
-            if not data or 'session_id' not in data:
-                response.status = 400
-                return self.to_json({"error": "Campo 'session_id' é obrigatório."})
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
+                response.status = 401 # Unauthorized
+                return self.to_json({"error": "Nenhum usuário logado para desconectar."})
 
-            session_id = data.get('session_id')
             success = self.user_db.logout(session_id)
+
+            # Deleta o cookie do navegador, independentemente de a sessão existir no DB.
+            # Isso garante que o navegador não envie mais um cookie inválido.
+            response.delete_cookie("session_id", path='/')
 
             if success:
                 response.status = 200
                 return self.to_json({"message": "Logout bem-sucedido."})
             else:
-                response.status = 404
-                return self.to_json({"error": "Sessão não encontrada ou já expirada."})
+                # Mesmo que a sessão não exista no DB, o cookie foi removido do cliente.
+                response.status = 200
+                return self.to_json({"message": "Sessão já estava inválida, cookie removido."})
 
         except Exception as e:
             traceback.print_exc()
@@ -130,24 +166,13 @@ class UsersAPI:
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
     def get_current_user_info(self):
         """
-        Retorna informações do usuário logado a partir de um ID de sessão
-        enviado no cabeçalho de autorização (Authorization: Bearer <session_id>).
+        Retorna informações do usuário logado a partir do cookie de sessão.
         """
         try:
-            # 1. Obter o cabeçalho de autorização
-            auth_header = request.headers.get('Authorization')
-            if not auth_header:
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
                 response.status = 401  # Unauthorized
-                return self.to_json({"error": "Cabeçalho de autorização ausente."})
-
-            # 2. Validar o formato "Bearer <token>"
-            parts = auth_header.split()
-            if len(parts) != 2 or parts[0].lower() != 'bearer':
-                response.status = 401  # Unauthorized
-                return self.to_json(
-                    {"error": "Formato do cabeçalho de autorização inválido. Use 'Bearer <token>'."})
-
-            session_id = parts[1]
+                return self.to_json({"error": "Sessão inválida ou expirada. Faça o login novamente."})
 
             user = self.user_db.get_current_user(session_id)
 
@@ -156,7 +181,7 @@ class UsersAPI:
                 return self.to_json(user)
             else:
                 response.status = 404
-                return self.to_json({"error": "Nenhum usuário autenticado com esta sessão ou sessão inválida."})
+                return self.to_json({"error": "Usuário não encontrado para esta sessão."})
 
         except Exception as e:
             traceback.print_exc()

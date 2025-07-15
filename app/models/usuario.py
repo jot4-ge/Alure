@@ -31,12 +31,22 @@ class UserAccount:
         return bcrypt.checkpw(bytes(raw_password_bytes), bytes(password_hash_bytes))
 
     def to_dict(self) -> Dict[str, str]:
+        """Retorna um dicionário com todos os dados para salvar no arquivo JSON."""
         return {
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'telephone_num': self.telephone_num, #
-            'password_hash': self.password_hash
+            'telephone_num': self.telephone_num,
+            "password_hash" : self.password_hash
+        }
+
+    def to_dict_no_password(self) -> Dict[str, str]:
+        """Retorna um dicionário seguro para ser exposto em APIs, sem dados sensíveis."""
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'telephone_num': self.telephone_num
         }
 
     def __repr__(self) -> str:

@@ -1,7 +1,7 @@
 document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
   const data = {
-    email: this.email.value,
+    username: this.username.value,
     password: this.password.value
   };
 

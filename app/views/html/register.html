@@ -10,17 +10,24 @@
     <h2>Crie sua Conta</h2>
     <form class="auth-form" id="registerForm">
       <div class="form-group">
-        <label for="name">Nome Completo:</label>
-        <input type="text" id="name" name="name" required />
+        <label for="username">Nome de Usuário:</label>
+        <input type="text" id="username" name="username" required />
       </div>
       <div class="form-group">
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" required />
       </div>
       <div class="form-group">
+        <label for="telephone">Telefone:</label>
+        <input type="tel" id="telephone" name="telephone" placeholder="(XX) XXXXX-XXXX" required />
+      </div>
+      <div class="form-group">
         <label for="password">Senha:</label>
         <input type="password" id="password" name="password" required />
       </div>
+
+      <div id="form-message" class="form-message" hidden></div>
+
       <div class="form-actions">
         <button type="submit" class="primary-btn">Registrar</button>
         <a href="/login" class="secondary-btn">Já tenho conta</a>
@@ -31,4 +38,3 @@
   <script src="/static/js/register.js" defer></script>
 </body>
 </html>
-
