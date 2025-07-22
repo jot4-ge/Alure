@@ -1,12 +1,32 @@
 [
     {
-        "id": "g7gja",
-        "nome": "Camiseta Nike",
-        "preco": 129.9,
-        "estoque": 10,
-        "image_filename": "6c7896ee-1a4e-400e-a380-c21749d29002.png",
-        "descricao": "camiseta",
+        "id": "f3lao",
+        "nome": "Camisa Nike",
+        "preco": 99.99,
+        "estoque": 3,
+        "image_filename": "494d91bd-36e0-4907-bee8-e75fe5c5ef28.jpeg",
+        "descricao": "Camisa da marca Nike, tecido dryfit, cor preta",
+        "categoria": "camisetas",
+        "tamanho": "M"
+    },
+    {
+        "id": "rgeo4",
+        "nome": "Òculos Nike",
+        "preco": 80.0,
+        "estoque": 2,
+        "image_filename": "b2d0c8dd-16ac-4b2c-b32b-8a762e044e6c.jpeg",
+        "descricao": "óculos da marca Nike",
+        "categoria": "acessorios",
+        "tamanho": "M"
+    },
+    {
+        "id": "qvd4h",
+        "nome": "Camisa Streetwear",
+        "preco": 179.99,
+        "estoque": 5,
+        "image_filename": "c366ba39-917c-4126-8f5b-0ec74648a246.jpeg",
+        "descricao": "Camisa Streetwear da marca Nike",
         "categoria": "streetwear",
-        "tamanho": "P"
+        "tamanho": "M"
     }
 ]

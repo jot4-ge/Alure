@@ -33,7 +33,8 @@ class API:
         return json.dumps(
             data,
             default=lambda o: o.to_dict() if hasattr(o, 'to_dict') else o.__dict__,
-            indent=4
+            indent=4,
+            ensure_ascii=False
         )
 
     def get_all_products(self):
@@ -53,6 +54,10 @@ class API:
             return self.to_json(product)
         response.status = 404
         return self.to_json({"error": f"Produto com nome '{product_name}' não encontrado."})
+
+    def get_products_by_category(self, categoria):
+        produtos = self.product_db.get_products_by_category(categoria)
+        return self.to_json(produtos)
 
     def create_product(self):
         try:
@@ -182,7 +187,6 @@ class API:
         self.product_db.remove_product(product_id)
         return self.to_json({"message": f"Produto com ID '{product_id}' removido com sucesso."})
 
-    # 🆕 NOVO MÉTODO: COMPRA DE PRODUTO
     def buy_product(self, product_id):
         try:
             product = self.product_db.get_product(product_id)
@@ -218,3 +222,6 @@ class API:
                 await websocket.send(json.dumps(payload))
         except Exception as e:
             print(f"[WebSocket] Erro ao notificar: {e}")
+
+        
+    

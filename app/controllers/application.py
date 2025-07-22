@@ -1,5 +1,5 @@
 from bottle import template
-
+from app.controllers.ProductRecord import ProductRecord
 
 class Application:
 
@@ -56,20 +56,24 @@ class Application:
     def initial_page():
         return template("initial_page")
 
-    # ---------------------------- catalogos routes ----------------------------
     @staticmethod
     def acessorios():
-        return template("product_catalogs/acessorios")
+        product_db = ProductRecord()
+        produtos = product_db.get_products_by_category("acessorios")
+        return template("product_catalogs/acessorios", produtos=produtos)
 
     @staticmethod
     def camisetas():
-        return template("product_catalogs/camisetas")
+        product_db = ProductRecord()
+        produtos = product_db.get_products_by_category("camisetas")
+        return template("product_catalogs/camisetas", produtos=produtos)
 
     @staticmethod
     def streetwear():
-        return template("product_catalogs/streetwear")
+        product_db = ProductRecord()
+        produtos = product_db.get_products_by_category("streetwear")
+        return template("product_catalogs/streetwear", produtos=produtos)
 
-    # ---------------------------- account routes ----------------------------
     @staticmethod
     def login():
         return template("login")

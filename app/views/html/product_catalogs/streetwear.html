@@ -6,8 +6,34 @@
   <link rel="stylesheet" href="/static/css/initial_page.css">
 </head>
 <body>
-  <h2>Streetwear</h2>
-  <p>Aqui estão os produtos da categoria Streetwear.</p>
-  <a href="/initial_page">← Voltar para a página inicial</a>
+
+  <header>
+    <!-- Seu header aqui -->
+  </header>
+
+  <main>
+    <h1>Streetwear</h1>
+
+    % if produtos:
+      <div class="product-grid">
+        % for produto in produtos:
+          <div class="product-card">
+            <img src="/static/img/clothes/{{produto.image_filename}}" alt="{{produto.nome}}">
+            <h3>{{produto.nome}}</h3>
+            <p>{{produto.descricao}}</p>
+            <p class="price">R$ {{"{:.2f}".format(produto.preco)}}</p>
+            <p class="stock-status">Estoque: {{produto.estoque}}</p>
+          </div>
+        % end
+      </div>
+    % else:
+      <p>Nenhuma peça streetwear disponível.</p>
+    % end
+  </main>
+
+  <footer>
+    <!-- Seu footer aqui -->
+  </footer>
+
 </body>
 </html>

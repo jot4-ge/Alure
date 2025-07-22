@@ -3,7 +3,6 @@ from app.models.roupa import Roupa
 from typing import Optional
 import os
 
-
 class ProductRecord:
 
     def __init__(self):
@@ -63,12 +62,15 @@ class ProductRecord:
             if hasattr(product, 'id') and str(product.id) == str(product_id):
                 return product
         return None
-    def get_product_by_name(self,product_name):
+
+    def get_product_by_name(self, product_name):
         for product in self.__products:
             if product.nome == product_name:
                 return product
         return None
 
+    def get_products_by_category(self, categoria: str) -> list[Roupa]:
+        return [p for p in self.__products if p.categoria.lower() == categoria.lower()]
 
     def remove_product(self, product_id: str) -> bool:
         initial_len = len(self.__products)
