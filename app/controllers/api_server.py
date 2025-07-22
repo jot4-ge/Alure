@@ -3,12 +3,11 @@ import os
 import traceback
 import random
 import string
-import asyncio
-import websockets
 from uuid import uuid4
 from bottle import request, response
 from app.controllers.ProductRecord import ProductRecord
 from app.models.roupa import Roupa
+from app.controllers.websocket_server import schedule_broadcast
 
 # --- Diretório de Upload ---
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -146,7 +145,7 @@ class API:
                 id=str(product_id),
                 nome=nome,
                 descricao=descricao,
-                preco=float(preco_str),
+                preco=float(preco_str.replace(",", ".")),
                 estoque=int(estoque_str),
                 image_filename=image_filename,
                 tamanho=tamanho,
@@ -159,6 +158,16 @@ class API:
                     os.remove(old_path)
 
             if self.product_db.edit_product(updated_product):
+                if updated_product.estoque != original_product.estoque:
+                    # Notifica todos os clientes conectados sobre a atualização do estoque
+                    print(f"Enviando atualização via WebSocket: Produto {updated_product.id} com estoque {updated_product.estoque}")
+                    schedule_broadcast({
+                        "type": "stock_update",
+                        "payload": {
+                            "product_id": updated_product.id,
+                            "estoque": updated_product.estoque
+                        }
+                    })
                 return self.to_json(updated_product)
             else:
                 response.status = 500
@@ -201,27 +210,18 @@ class API:
             product.estoque -= 1
             self.product_db.edit_product(product)
 
-            if product.estoque == 0:
-                asyncio.run(self._emit_websocket_estoque_esgotado(product.id, product.nome))
+            # Notifica todos os clientes conectados sobre a atualização do estoque.
+            print(f"Enviando atualização via WebSocket: Produto {product.id} com estoque {product.estoque}")
+            schedule_broadcast({
+                "type": "stock_update",
+                "payload": {
+                    "product_id": product.id,
+                    "estoque": product.estoque
+                }
+            })
 
             return self.to_json({"message": "Compra realizada com sucesso.", "produto": product.to_dict()})
         except Exception as e:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Erro ao processar compra: {e}"})
-
-    async def _emit_websocket_estoque_esgotado(self, product_id, product_name):
-        uri = "ws://localhost:8765"
-        try:
-            async with websockets.connect(uri) as websocket:
-                payload = {
-                    "event": "estoque_esgotado",
-                    "product_id": product_id,
-                    "message": f"O produto '{product_name}' esgotou!"
-                }
-                await websocket.send(json.dumps(payload))
-        except Exception as e:
-            print(f"[WebSocket] Erro ao notificar: {e}")
-
-        
-    

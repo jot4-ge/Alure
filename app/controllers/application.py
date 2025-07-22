@@ -58,21 +58,15 @@ class Application:
 
     @staticmethod
     def acessorios():
-        product_db = ProductRecord()
-        produtos = product_db.get_products_by_category("acessorios")
-        return template("product_catalogs/acessorios", produtos=produtos)
+        return template("product_catalogs/acessorios")
 
     @staticmethod
     def camisetas():
-        product_db = ProductRecord()
-        produtos = product_db.get_products_by_category("camisetas")
-        return template("product_catalogs/camisetas", produtos=produtos)
+        return template("product_catalogs/camisetas")
 
     @staticmethod
     def streetwear():
-        product_db = ProductRecord()
-        produtos = product_db.get_products_by_category("streetwear")
-        return template("product_catalogs/streetwear", produtos=produtos)
+        return template("product_catalogs/streetwear")
 
     @staticmethod
     def login():

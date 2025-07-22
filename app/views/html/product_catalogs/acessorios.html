@@ -2,39 +2,61 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Acessórios - Alure</title>
-  <link rel="stylesheet" href="/static/css/initial_page.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Título atualizado para Acessórios -->
+  <title>Acessórios - Alure Streetwear</title>
+
+  <!-- Link para o novo arquivo CSS de acessórios -->
+  <link rel="stylesheet" href="/static/css/product_catalogs/acessorios.css">
 </head>
 <body>
 
+  <!-- Header consistente com o resto do site -->
   <header>
-    <!-- Seu header aqui -->
+    <a href="/" class="logo">
+      <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#">Novidades</a></li>
+        <li><a href="/camisetas">Camisas</a></li>
+        <!-- Link de Acessórios pode ser destacado aqui -->
+        <li><a href="/acessorios" style="color: var(--roxo);">Acessórios</a></li>
+        <li><a href="#">Drops</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <form action="#" method="get">
+        <input type="search" name="q" placeholder="Buscar">
+      </form>
+      <a href="/perfil" aria-label="Perfil do usuário">👤</a>
+      <a href="/carrinho" class="cart-icon" aria-label="Carrinho de compras">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </div>
   </header>
 
-  <main>
-    <h1>Acessórios</h1>
+  <!-- Conteúdo Principal -->
+  <main class="products-main">
+    <h1 class="page-title">Acessórios</h1>
 
-    % if produtos:
-      <div class="product-grid">
-        % for produto in produtos:
-          <div class="product-card">
-            <img src="/static/img/clothes/{{produto.image_filename}}" alt="{{produto.nome}}">
-            <h3>{{produto.nome}}</h3>
-            <p>{{produto.descricao}}</p>
-            <p class="price">R$ {{"{:.2f}".format(produto.preco)}}</p>
-            <p class="stock-status">Estoque: {{produto.estoque}}</p>
-          </div>
-        % end
-      </div>
-    % else:
-      <p>Nenhum acessório disponível.</p>
-    % end
+    <!-- Container onde os produtos serão inseridos dinamicamente -->
+    <div id="product-container" class="product-grid">
+      <!-- Mensagem de carregamento inicial -->
+      <p>Carregando acessórios...</p>
+    </div>
   </main>
 
+  <!-- Footer consistente com o resto do site -->
   <footer>
-    <!-- Seu footer aqui -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
   </footer>
+
+  <!-- Link para o novo arquivo JavaScript de acessórios -->
+  <script src="/static/js/product_catalogs/acessorios.js"></script>
 
 </body>
 </html>
-

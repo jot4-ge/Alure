@@ -5,5 +5,12 @@
         "email": "tiago@gmail.com",
         "telephone_num": "61",
         "password_hash": "$2b$12$JaywS5c7bhuLh51x6WJ/yOYQ.b5L.SSzYpLwk94.n/kp9jAc4/Wpq"
+    },
+    {
+        "id": "94fe5e97-d17c-4df6-b995-37450dbd584e",
+        "username": "joao",
+        "email": "joao@gmail.com",
+        "telephone_num": "61999035553",
+        "password_hash": "$2b$12$FC9PAdPBnbBAnbFbuB35a.c3gumswOGSOPJDPIxkkQgsSXL7BaIG2"
     }
 ]

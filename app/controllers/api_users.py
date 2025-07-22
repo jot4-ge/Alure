@@ -1,17 +1,19 @@
 import json
 import traceback
+# A importação de 'requests' não é mais necessária
 from bottle import request, response
 from app.controllers.UserRecord import UserRecord, SignInResult
 from typing import Optional
 
 class UsersAPI:
     """
-    Encapsula toda a lógica de negócio para a API de usuários.
+    Encapsula a lógica de negócio para a API de usuários, sessões e carrinhos.
     """
 
     def __init__(self):
         """Inicializa a API e sua conexão com o 'banco de dados' de usuários."""
         self.user_db = UserRecord('users.json')
+        # A URL da API de produtos não é mais necessária aqui
 
     @staticmethod
     def to_json(data: any) -> str:
@@ -22,6 +24,9 @@ class UsersAPI:
             default=lambda o: o.to_dict() if hasattr(o, 'to_dict') else o.__dict__,
             indent=4
         )
+
+    # --- Métodos de Usuário (sign_in, login, logout, etc.) permanecem os mesmos ---
+    # ... (código de sign_in, login, logout, etc. sem alterações) ...
     def sign_in(self):
         """
         Registra (cria) um novo usuário.
@@ -67,7 +72,7 @@ class UsersAPI:
                     httponly=True,
                     path='/'
                 )
-                response.status = 201 # Created
+                response.status = 201  # Created
                 return self.to_json({"message": f"Usuário '{username}' criado e logado com sucesso."})
             elif result == SignInResult.USERNAME_EXISTS:
                 response.status = 409
@@ -117,6 +122,7 @@ class UsersAPI:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
+
     def logout(self):
         """
         Desconecta um usuário, invalidando sua sessão a partir do cookie.
@@ -124,7 +130,7 @@ class UsersAPI:
         try:
             session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
             if not session_id:
-                response.status = 401 # Unauthorized
+                response.status = 401  # Unauthorized
                 return self.to_json({"error": "Nenhum usuário logado para desconectar."})
 
             success = self.user_db.logout(session_id)
@@ -164,6 +170,7 @@ class UsersAPI:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
+
     def get_current_user_info(self):
         """
         Retorna informações do usuário logado a partir do cookie de sessão.
@@ -187,3 +194,68 @@ class UsersAPI:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Ocorreu um erro inesperado no servidor: {e}"})
+
+
+    # --- Métodos do Carrinho ---
+
+    def get_cart(self):
+        """
+        Retorna dados básicos do carrinho (IDs e quantidades).
+        """
+        try:
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
+                return self.to_json([])
+
+            cart = self.user_db.get_cart_by_session(session_id)
+
+            if cart is None:
+                return self.to_json([])
+
+            return self.to_json(cart)
+
+        except Exception as e:
+            traceback.print_exc()
+            response.status = 500
+            return self.to_json({"error": f"Erro ao buscar carrinho: {e}"})
+
+    def add_to_cart(self):
+        """
+        Adiciona um item ao carrinho, confiando que o ID do produto é válido.
+        """
+        try:
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
+                response.status = 401
+                return self.to_json({"error": "Faça o login para adicionar itens ao carrinho."})
+
+            data = request.json
+            if not data or 'product_id' not in data or 'quantity' not in data:
+                response.status = 400
+                return self.to_json({"error": "Requisição inválida. 'product_id' e 'quantity' são obrigatórios."})
+
+            product_id = data['product_id']
+            quantity = int(data['quantity'])
+
+            success = self.user_db.add_product_to_cart(session_id, product_id, quantity)
+
+            if not success:
+                response.status = 401
+                return self.to_json({"error": "Sessão inválida. Faça o login novamente."})
+
+            updated_cart = self.user_db.get_cart_by_session(session_id)
+            new_cart_count = sum(item['quantity'] for item in updated_cart) if updated_cart else 0
+
+            response.status = 200
+            return self.to_json({
+                "message": "Item adicionado ao carrinho com sucesso!",
+                "new_cart_count": new_cart_count
+            })
+
+        except ValueError:
+            response.status = 400
+            return self.to_json({"error": "A quantidade deve ser um número inteiro."})
+        except Exception as e:
+            traceback.print_exc()
+            response.status = 500
+            return self.to_json({"error": f"Erro ao adicionar ao carrinho: {e}"})

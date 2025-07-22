@@ -2,38 +2,60 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Streetwear - Alure</title>
-  <link rel="stylesheet" href="/static/css/initial_page.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streetwear - Alure Streetwear</title>
+
+  <!-- Link para o novo arquivo CSS de streetwear -->
+  <link rel="stylesheet" href="/static/css/product_catalogs/streetwear.css">
 </head>
 <body>
 
+  <!-- Header consistente com o resto do site -->
   <header>
-    <!-- Seu header aqui -->
+    <a href="/" class="logo">
+      <img src="/static/img/logo.jpg" alt="Logo da Alure">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="/camisetas">Camisas</a></li>
+        <li><a href="/acessorios">Acessórios</a></li>
+        <!-- Link de Streetwear destacado -->
+        <li><a href="/streetwear" style="color: var(--roxo);">Streetwear</a></li>
+        <li><a href="#">Drops</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <form action="#" method="get">
+        <input type="search" name="q" placeholder="Buscar">
+      </form>
+      <a href="/perfil" aria-label="Perfil do usuário">👤</a>
+      <a href="/carrinho" class="cart-icon" aria-label="Carrinho de compras">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+    </div>
   </header>
 
-  <main>
-    <h1>Streetwear</h1>
+  <!-- Conteúdo Principal -->
+  <main class="products-main">
+    <h1 class="page-title">Streetwear</h1>
 
-    % if produtos:
-      <div class="product-grid">
-        % for produto in produtos:
-          <div class="product-card">
-            <img src="/static/img/clothes/{{produto.image_filename}}" alt="{{produto.nome}}">
-            <h3>{{produto.nome}}</h3>
-            <p>{{produto.descricao}}</p>
-            <p class="price">R$ {{"{:.2f}".format(produto.preco)}}</p>
-            <p class="stock-status">Estoque: {{produto.estoque}}</p>
-          </div>
-        % end
-      </div>
-    % else:
-      <p>Nenhuma peça streetwear disponível.</p>
-    % end
+    <!-- Container onde os produtos serão inseridos dinamicamente -->
+    <div id="product-container" class="product-grid">
+      <!-- Mensagem de carregamento inicial -->
+      <p>Carregando peças streetwear...</p>
+    </div>
   </main>
 
+  <!-- Footer consistente com o resto do site -->
   <footer>
-    <!-- Seu footer aqui -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
+    </div>
   </footer>
+
+  <!-- Link para o novo arquivo JavaScript de streetwear -->
+  <script src="/static/js/product_catalogs/streetwear.js"></script>
 
 </body>
 </html>

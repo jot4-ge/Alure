@@ -116,6 +116,10 @@ def api_get_product(product_id):
 def api_get_product_by_name(product_name):
     return api.get_product_by_name(product_name)
 
+@app.route('/api/products/category/<product_category>', method='GET')
+def api_get_product_by_name(product_category):
+    return api.get_products_by_category(product_category)
+
 @app.route('/api/products', method='POST')
 def api_create_product():
     return api.create_product()
@@ -132,6 +136,16 @@ def api_delete_product(product_id):
 @app.route('/api/products/<product_id>/buy', method='POST')
 def api_buy_product(product_id):
     return api.buy_product(product_id)
+
+# ------------------ Cart API Routes ------------------
+
+@app.route('/api/cart', method='GET')
+def api_get_cart():
+    return user_api.get_cart()
+
+@app.route('/api/cart/add', method='POST')
+def api_add_to_cart():
+    return user_api.add_to_cart()
 
 # ------------------ User API RESTful Routes ------------------
 
@@ -158,7 +172,7 @@ def api_get_user_info():
 # ------------------ Error Handling ------------------
 
 @app.error(404)
-def error404(error_):
+def error404(_error):
     if request.path.startswith('/api/'):
         response.status = 404
         return api.to_json({"error": "Endpoint não encontrado."})

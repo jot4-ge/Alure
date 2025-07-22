@@ -28,5 +28,15 @@
         "descricao": "Camisa Streetwear da marca Nike",
         "categoria": "streetwear",
         "tamanho": "M"
+    },
+    {
+        "id": "5awrg",
+        "nome": "seta",
+        "preco": 120.0,
+        "estoque": 3,
+        "image_filename": "106e7ba4-9627-475d-887c-b618f1cd507d.jpg",
+        "descricao": "seta",
+        "categoria": "acessorios",
+        "tamanho": "G"
     }
 ]
