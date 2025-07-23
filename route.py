@@ -132,10 +132,9 @@ def api_update_product(product_id):
 def api_delete_product(product_id):
     return api.delete_product(product_id)
 
-# ✅ NOVA ROTA: Compra de produto (com alerta via WebSocket)
-@app.route('/api/products/<product_id>/buy', method='POST')
-def api_buy_product(product_id):
-    return api.buy_product(product_id)
+@app.route('/api/products/purchase', method='POST')
+def api_process_purchase():
+    return api.process_purchase()
 
 # ------------------ Cart API Routes ------------------
 
@@ -146,6 +145,13 @@ def api_get_cart():
 @app.route('/api/cart/add', method='POST')
 def api_add_to_cart():
     return user_api.add_to_cart()
+@app.route('/api/cart/remove/<product_id>', method='DELETE')
+def api_remove_from_cart(product_id):
+    return user_api.remove_product_from_cart(product_id)
+
+@app.route('/api/cart/clear', method='DELETE')
+def api_clear_cart():
+    return user_api.clear_cart()
 
 # ------------------ User API RESTful Routes ------------------
 

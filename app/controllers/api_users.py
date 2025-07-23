@@ -259,3 +259,63 @@ class UsersAPI:
             traceback.print_exc()
             response.status = 500
             return self.to_json({"error": f"Erro ao adicionar ao carrinho: {e}"})
+    def remove_product_from_cart(self, product_id: str):
+        """
+        Remove um item específico do carrinho do usuário logado.
+        """
+        try:
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
+                response.status = 401
+                return self.to_json({"error": "Faça o login para remover itens do carrinho."})
+
+            # Chama o método correspondente no UserRecord para remover o produto
+            success = self.user_db.remove_product_from_cart(session_id, product_id)
+
+            if not success:
+                # Pode significar que a sessão é inválida ou o usuário não foi encontrado
+                response.status = 401
+                return self.to_json({"error": "Sessão inválida. Faça o login novamente."})
+
+            # Após a remoção, busca o carrinho atualizado para retornar a nova contagem
+            updated_cart = self.user_db.get_cart_by_session(session_id)
+            new_cart_count = sum(item['quantity'] for item in updated_cart) if updated_cart else 0
+
+            response.status = 200
+            return self.to_json({
+                "message": "Item removido do carrinho com sucesso!",
+                "new_cart_count": new_cart_count
+            })
+
+        except Exception as e:
+            traceback.print_exc()
+            response.status = 500
+            return self.to_json({"error": f"Erro ao remover item do carrinho: {e}"})
+
+    def clear_cart(self):
+        """
+        Remove todos os itens do carrinho do usuário logado.
+        """
+        try:
+            session_id = request.get_cookie("session_id", secret='uma-chave-secreta-muito-forte')
+            if not session_id:
+                response.status = 401
+                return self.to_json({"error": "Faça o login para limpar o carrinho."})
+
+            # Chama o método correspondente no UserRecord para limpar o carrinho
+            success = self.user_db.clear_user_cart(session_id)
+
+            if not success:
+                response.status = 401
+                return self.to_json({"error": "Sessão inválida. Faça o login novamente."})
+
+            response.status = 200
+            return self.to_json({
+                "message": "Carrinho esvaziado com sucesso!",
+                "new_cart_count": 0
+            })
+
+        except Exception as e:
+            traceback.print_exc()
+            response.status = 500
+            return self.to_json({"error": f"Erro ao limpar o carrinho: {e}"})

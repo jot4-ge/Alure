@@ -1,41 +1,51 @@
 [
     {
-        "id": "f3lao",
-        "nome": "Camisa Nike",
-        "preco": 99.99,
-        "estoque": 3,
-        "image_filename": "494d91bd-36e0-4907-bee8-e75fe5c5ef28.jpeg",
-        "descricao": "Camisa da marca Nike, tecido dryfit, cor preta",
+        "id": "oagmx",
+        "nome": "Camiseta Nike",
+        "preco": 129.9,
+        "estoque": 30,
+        "image_filename": "23261d06-c4e0-4113-80f6-a178a7c21a0a.png",
+        "descricao": "Camiseta da Nike",
         "categoria": "camisetas",
-        "tamanho": "M"
+        "tamanho": "G"
     },
     {
-        "id": "rgeo4",
-        "nome": "Òculos Nike",
-        "preco": 80.0,
-        "estoque": 2,
-        "image_filename": "b2d0c8dd-16ac-4b2c-b32b-8a762e044e6c.jpeg",
-        "descricao": "óculos da marca Nike",
+        "id": "5gvab",
+        "nome": "Chapeu Nike Bucket",
+        "preco": 69.9,
+        "estoque": 10,
+        "image_filename": "7694e9c0-cb8f-431d-b38b-f3bb706af89b.png",
+        "descricao": "Chapeu Bucket da Nike",
         "categoria": "acessorios",
         "tamanho": "M"
     },
     {
-        "id": "qvd4h",
-        "nome": "Camisa Streetwear",
-        "preco": 179.99,
-        "estoque": 5,
-        "image_filename": "c366ba39-917c-4126-8f5b-0ec74648a246.jpeg",
-        "descricao": "Camisa Streetwear da marca Nike",
-        "categoria": "streetwear",
-        "tamanho": "M"
+        "id": "wthue",
+        "nome": "Camiseta Nike Streetwear",
+        "preco": 149.9,
+        "estoque": 30,
+        "image_filename": "3d922136-1237-401e-81f3-31579109474f.png",
+        "descricao": "Camiseta Nike Streetwear",
+        "categoria": "camisetas",
+        "tamanho": "G"
     },
     {
-        "id": "5awrg",
-        "nome": "seta",
-        "preco": 120.0,
-        "estoque": 3,
-        "image_filename": "106e7ba4-9627-475d-887c-b618f1cd507d.jpg",
-        "descricao": "seta",
+        "id": "5l5u1",
+        "nome": "Calça Jordan Essentials Woven Masculina",
+        "preco": 284.9,
+        "estoque": 15,
+        "image_filename": "2071b6e5-766f-4710-ac17-51c5cfa3ad2f.png",
+        "descricao": "A lona trançada resistente dá a esta calça clássica uma sensação estruturada. Um cós elástico com cordão interno permite que você escolha o ajuste perfeito, enquanto um fecho falso acrescenta um visual tradicional.",
+        "categoria": "streetwear",
+        "tamanho": "G"
+    },
+    {
+        "id": "ypnen",
+        "nome": "Chuteira Nike Mercurial Vapor 16 Club Society",
+        "preco": 199.9,
+        "estoque": 12,
+        "image_filename": "8488e2ea-7e64-43b7-978a-193674e8edae.png",
+        "descricao": "Quer esteja começando ou apenas jogando por diversão, os calçados Club colocam você em campo sem comprometer a qualidade. O Vapor 16 foi feito com a velocidade em mente. Misture essa velocidade com toque e conforto? É hora do gol!\r\n\r\n",
         "categoria": "acessorios",
         "tamanho": "G"
     }

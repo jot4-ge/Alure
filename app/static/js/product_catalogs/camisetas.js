@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- LÓGICA WEBSOCKET ---
   function connectWebSocket() {
-    const socket = new WebSocket('ws://localhost:8765');
-    socket.onopen = () => console.log('Conectado ao serviço de atualização em tempo real.');
+    const socket = new WebSocket(`ws://${window.location.hostname}:8765`);
+
+    socket.onopen = () => console.log('Conectado ao serviço de atualização
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === 'stock_update') {
@@ -117,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
       productContainer.innerHTML = '';
 
       if (!products || products.length === 0) {
-        productContainer.innerHTML = '<p>Nenhum acessório encontrado no momento.</p>';
+        productContainer.innerHTML = '<p>Nenhuma camiseta encontrada no momento.</p>';
         return;
       }
 

@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrinho - Alure Streetwear</title>
+  <!-- Link para o novo arquivo CSS -->
   <link rel="stylesheet" href="/static/css/carrinho.css">
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header  -->
   <header>
     <a href="/" class="logo">
       <img src="/static/img/logo.jpg" alt="Logo da Alure">
     </a>
-
     <nav>
       <ul>
         <li><a href="#">Novidades</a></li>
@@ -21,7 +21,6 @@
         <li><a href="#">Drops</a></li>
       </ul>
     </nav>
-
     <div class="header-actions">
       <form action="#" method="get">
         <input type="search" name="q" placeholder="Buscar">
@@ -34,12 +33,12 @@
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- Conteúdo Principal -->
   <main class="cart-main">
     <div class="container">
       <h1 class="page-title">Seu Carrinho</h1>
 
-      <!-- Empty Cart Message -->
+      <!-- Mensagem de Carrinho Vazio (controlada pelo JS) -->
       <div class="empty-cart" id="emptyCart" style="display: none;">
         <div class="empty-cart-content">
           <div class="empty-cart-icon">🛒</div>
@@ -49,112 +48,45 @@
         </div>
       </div>
 
-      <!-- Cart Content -->
-      <div class="cart-content" id="cartContent">
+      <!-- Conteúdo do Carrinho (controlado pelo JS) -->
+      <div class="cart-content" id="cartContent" style="display: none;">
         <div class="cart-items-section">
           <div class="cart-header">
             <h2>Itens no Carrinho</h2>
-            <button class="btn-clear-cart" id="clearCart">Limpar Carrinho</button>
+            <button class="btn-clear-cart" id="clearCartBtn">Limpar Carrinho</button>
           </div>
-
-          <div class="cart-items" id="cartItems">
-            <!-- Cart items will be dynamically inserted here -->
-          </div>
+          <!-- Itens do carrinho serão inseridos aqui pelo JS -->
+          <div class="cart-items" id="cartItemsContainer"></div>
         </div>
 
-        <!-- Cart Summary -->
-        <div class="cart-summary">
+        <!-- Resumo do Pedido -->
+        <aside class="cart-summary">
           <div class="summary-card">
             <h3>Resumo do Pedido</h3>
-
             <div class="summary-line">
               <span>Subtotal:</span>
-              <span id="subtotal">R$ 0,00</span>
+              <span id="subtotalValue">R$ 0,00</span>
             </div>
-
-            <div class="summary-line">
-              <span>Frete:</span>
-              <span id="frete">R$ 0,00</span>
-            </div>
-
             <hr class="summary-divider">
-
             <div class="summary-line total">
               <span>Total:</span>
-              <span id="total">R$ 0,00</span>
+              <span id="totalValue">R$ 0,00</span>
             </div>
-
-            <!-- Shipping Calculator -->
-            <div class="shipping-section">
-              <label for="cep">Calcular Frete:</label>
-              <div class="shipping-input-group">
-                <input 
-                  type="text" 
-                  id="cep" 
-                  name="cep" 
-                  placeholder="00000-000" 
-                  maxlength="9"
-                  pattern="\d{5}-\d{3}"
-                  inputmode="numeric"
-                  title="Digite um CEP válido no formato 00000-000"
-                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 45"
-                >
-                <button type="button" id="calculateShipping" class="btn-calculate" 
-                  onclick="calculateFrete(document.getElementById('cep').value.replace(/\D/g,''))">
-                  Calcular
-                </button>
-              </div>
-              <div class="shipping-options" id="shippingOptions"></div>
-            </div>
-
-            <button class="btn-checkout" id="checkoutBtn">Finalizar Compra</button>
+            <button class="btn-checkout" id="checkoutBtn"> Confirmar Compra</button>
             <a href="/" class="btn-continue-shopping">Continuar Comprando</a>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-columns">
-      <div class="column">
-        <h3>Sobre</h3>
-        <ul>
-          <li><a href="#">A Alure</a></li>
-          <li><a href="#">Política de Privacidade</a></li>
-          <li><a href="#">Trocas e Devoluções</a></li>
-        </ul>
-      </div>
-      <div class="column">
-        <h3>Contato</h3>
-        <p>Email: contato@alure.com</p>
-        <p>WhatsApp: (11) 99999-9999</p>
-      </div>
-      <div class="column">
-        <h3>Redes</h3>
-        <a href="#">Instagram</a><br>
-        <a href="#">TikTok</a><br>
-        <a href="#">YouTube</a>
-      </div>
-      <div class="column">
-        <h3>Receba Novidades</h3>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Seu e-mail" required>
-          <button type="submit">Cadastrar</button>
-        </form>
-      </div>
-    </div>
+<footer>
     <div class="footer-bottom">
       <p>&copy; 2025 Alure. Todos os direitos reservados.</p>
     </div>
   </footer>
 
-  <!-- Back to Top Button -->
-  <button class="back-to-top" id="backToTop" title="Voltar ao topo" aria-label="Voltar ao topo">
-    ↑
-  </button>
-
+  <!-- Link para o novo arquivo JavaScript -->
   <script src="/static/js/carrinho.js"></script>
-  </body>
+</body>
 </html>

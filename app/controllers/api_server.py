@@ -196,32 +196,72 @@ class API:
         self.product_db.remove_product(product_id)
         return self.to_json({"message": f"Produto com ID '{product_id}' removido com sucesso."})
 
-    def buy_product(self, product_id):
+    def process_purchase(self):
         try:
-            product = self.product_db.get_product(product_id)
-            if not product:
-                response.status = 404
-                return self.to_json({"error": "Produto não encontrado."})
+            data = request.json
+            # Espera um formato como: {"cart": [{"product_id": "abc", "quantity": 2}, ...]}
+            cart_items = data.get('cart')
 
-            if product.estoque <= 0:
+            if not cart_items or not isinstance(cart_items, list):
                 response.status = 400
-                return self.to_json({"error": "Produto esgotado."})
+                return self.to_json({"error": "Formato de carrinho inválido ou carrinho vazio."})
 
-            product.estoque -= 1
-            self.product_db.edit_product(product)
+            produtos_comprados = []
+            erros_na_compra = []
 
-            # Notifica todos os clientes conectados sobre a atualização do estoque.
-            print(f"Enviando atualização via WebSocket: Produto {product.id} com estoque {product.estoque}")
-            schedule_broadcast({
-                "type": "stock_update",
-                "payload": {
-                    "product_id": product.id,
-                    "estoque": product.estoque
-                }
-            })
+            for item in cart_items:
+                product_id = item.get('product_id')
+                quantity = item.get('quantity', 1)
 
-            return self.to_json({"message": "Compra realizada com sucesso.", "produto": product.to_dict()})
+                if not product_id or not isinstance(quantity, int) or quantity <= 0:
+                    erros_na_compra.append({"product_id": product_id, "error": "Dados do item inválidos."})
+                    continue
+
+                product = self.product_db.get_product(product_id)
+
+                if not product:
+                    erros_na_compra.append({"product_id": product_id, "error": "Produto não encontrado."})
+                    continue
+
+                if product.estoque < quantity:
+                    erros_na_compra.append({
+                        "product_id": product_id,
+                        "error": f"Estoque insuficiente. Disponível: {product.estoque}, Pedido: {quantity}"
+                    })
+                    continue
+
+                # Se tudo estiver OK, atualiza o estoque
+                product.estoque -= quantity
+                self.product_db.edit_product(product)
+
+                produtos_comprados.append(product.to_dict())
+
+                # Notifica sobre a atualização do estoque
+                print(f"Enviando atualização via WebSocket: Produto {product.id} com estoque {product.estoque}")
+                schedule_broadcast({
+                    "type": "stock_update",
+                    "payload": {
+                        "product_id": product.id,
+                        "estoque": product.estoque
+                    }
+                })
+
+            # Após o loop, constrói a resposta final
+            if not erros_na_compra:
+                response.status = 200  # OK
+                return self.to_json({
+                    "message": "Compra realizada com sucesso!",
+                    "produtos_comprados": produtos_comprados
+                })
+            else:
+                response.status = 207  # Multi-Status
+                return self.to_json({
+                    "message": "Compra parcialmente concluída. Alguns itens falharam.",
+                    "produtos_comprados": produtos_comprados,
+                    "erros": erros_na_compra
+                })
+
         except Exception as e:
             traceback.print_exc()
             response.status = 500
-            return self.to_json({"error": f"Erro ao processar compra: {e}"})
+            return self.to_json({"error": f"Erro inesperado ao processar a compra: {e}"})

@@ -213,3 +213,40 @@ class UserRecord:
             self.save_session_carts()
             return True
         return False
+    def remove_product_from_cart(self, session_id: str, product_id: str) -> bool:
+        """
+        Remove um único produto do carrinho de uma sessão específica.
+        Retorna True se o produto foi encontrado e removido, False caso contrário.
+        """
+        # Verifica se a sessão existe e tem um carrinho associado
+        if session_id not in self.__session_carts:
+            return False
+
+        cart = self.__session_carts[session_id]
+        len_before = len(cart)
+
+        # Cria uma nova lista de carrinho contendo todos os itens, exceto o que deve ser removido
+        new_cart = [item for item in cart if item.get('product_id') != product_id]
+
+        # Verifica se um item foi realmente removido comparando os tamanhos das listas
+        if len(new_cart) < len_before:
+            self.__session_carts[session_id] = new_cart
+            self.save_session_carts()  # Salva a alteração no arquivo JSON
+            return True
+
+        # Retorna False se o product_id não foi encontrado no carrinho
+        return False
+
+    def clear_user_cart(self, session_id: str) -> bool:
+        """
+        Remove todos os produtos do carrinho de uma sessão (esvazia o carrinho).
+        Retorna True se a sessão foi encontrada e o carrinho limpo, False caso contrário.
+        """
+        # Verifica se a sessão existe para que possamos limpar o carrinho
+        if session_id in self.__session_carts:
+            self.__session_carts[session_id] = []  # Substitui a lista de itens por uma lista vazia
+            self.save_session_carts()  # Salva o estado do carrinho vazio no arquivo JSON
+            return True
+
+        # Retorna False se a sessão não foi encontrada
+        return False
